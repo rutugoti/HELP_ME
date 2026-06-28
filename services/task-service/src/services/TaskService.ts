@@ -17,12 +17,18 @@ import type {
   CreateTaskInput,
   UpdateTaskInput,
   DependencyGraph,
+  ActionDraft,
+  ActionDraftFeedback,
+  SubmitDraftFeedbackInput,
+  TaskPriorityScore,
 } from "@lastminute/types";
 import { ConflictError, NotFoundError } from "../utils/errors.js";
 import type {
   ITaskRepository,
   ITaskDependencyRepository,
   ITaskStatusHistoryRepository,
+  IActionDraftRepository,
+  ITaskPriorityScoreRepository,
 } from "../repositories/interfaces.js";
 import { UserRepository } from "../repositories/knex/UserRepository.js";
 import { randomUUID } from "crypto";
@@ -44,7 +50,9 @@ export class TaskService {
     private readonly taskRepository: ITaskRepository,
     private readonly taskDependencyRepository: ITaskDependencyRepository,
     private readonly taskStatusHistoryRepository: ITaskStatusHistoryRepository,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly actionDraftRepository: IActionDraftRepository,
+    private readonly taskPriorityScoreRepository: ITaskPriorityScoreRepository
   ) {}
 
   async createTask(userId: string, input: CreateTaskInput): Promise<TaskListItem> {
@@ -335,5 +343,73 @@ export class TaskService {
     const downstream = await this.taskDependencyRepository.getDownstream(taskId);
 
     return { upstream, downstream };
+  }
+
+  async bulkPrioritize(userId: string, taskIds: string[]): Promise<TaskListItem[]> {
+    const tasks = await this.taskRepository.findByIdsEnriched(taskIds, userId);
+    return tasks.sort((a, b) => {
+      if (b.priorityScore !== a.priorityScore) {
+        return b.priorityScore - a.priorityScore;
+      }
+      return a.id.localeCompare(b.id);
+    });
+  }
+
+  async getActionDraft(userId: string, taskId: string): Promise<ActionDraft | null> {
+    const task = await this.taskRepository.findById(taskId);
+    if (!task || task.userId !== userId) {
+      throw new NotFoundError("Task not found.");
+    }
+    return this.actionDraftRepository.findActiveByTaskId(taskId);
+  }
+
+  async submitDraftFeedback(
+    userId: string,
+    taskId: string,
+    feedback: SubmitDraftFeedbackInput
+  ): Promise<ActionDraftFeedback> {
+    const task = await this.taskRepository.findById(taskId);
+    if (!task || task.userId !== userId) {
+      throw new NotFoundError("Task not found.");
+    }
+
+    const draft = await this.actionDraftRepository.findActiveByTaskId(taskId);
+    if (!draft) {
+      throw new NotFoundError("No active action draft found for this task.");
+    }
+
+    return this.actionDraftRepository.createFeedback({
+      draftId: draft.id,
+      userId,
+      feedbackType: feedback.feedbackType,
+      notes: feedback.notes ?? null,
+    });
+  }
+
+  async updatePriorityScore(
+    userId: string,
+    taskId: string,
+    scoreInput: Omit<TaskPriorityScore, "id" | "userId" | "taskId" | "createdAt" | "updatedAt">,
+    triggerEvent: string
+  ): Promise<void> {
+    const task = await this.taskRepository.findById(taskId);
+    if (!task || task.userId !== userId) {
+      throw new NotFoundError("Task not found.");
+    }
+
+    await this.taskPriorityScoreRepository.updateScoreAndLogHistory(
+      {
+        taskId,
+        userId,
+        totalScore: scoreInput.totalScore,
+        deadlineProximityScore: scoreInput.deadlineProximityScore,
+        dependencyImpactScore: scoreInput.dependencyImpactScore,
+        consequenceSeverityScore: scoreInput.consequenceSeverityScore,
+        priorityTier: scoreInput.priorityTier,
+        scoringVersion: scoreInput.scoringVersion,
+        scoredAt: scoreInput.scoredAt,
+      },
+      triggerEvent
+    );
   }
 }

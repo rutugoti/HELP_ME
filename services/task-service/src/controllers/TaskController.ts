@@ -200,4 +200,77 @@ export class TaskController {
       next(err);
     }
   };
+
+  bulkPrioritize = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        throw new ForbiddenError();
+      }
+
+      const { taskIds } = req.body;
+      const rankedTasks = await this.taskService.bulkPrioritize(userId, taskIds);
+      res.status(200).json({
+        status: "success",
+        data: rankedTasks,
+        meta: {
+          correlationId: req.correlationId,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  getActionDraft = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        throw new ForbiddenError();
+      }
+
+      const { taskId } = req.params;
+      const draft = await this.taskService.getActionDraft(userId, taskId!);
+
+      if (!draft) {
+        res.status(202).json({
+          status: "pending",
+          message: "Action draft generation in progress.",
+          retryAfter: 5,
+        });
+        return;
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: draft,
+        meta: {
+          correlationId: req.correlationId,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  submitDraftFeedback = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user?.userId;
+      if (!userId) {
+        throw new ForbiddenError();
+      }
+
+      const { taskId } = req.params;
+      const feedback = await this.taskService.submitDraftFeedback(userId, taskId!, req.body);
+      res.status(200).json({
+        status: "success",
+        data: feedback,
+        meta: {
+          correlationId: req.correlationId,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
 }

@@ -99,6 +99,38 @@ export class TaskRepository implements ITaskRepository {
     return row ? mapRowToTaskListItem(row as unknown as Record<string, unknown>) : null;
   }
 
+  async findByIdsEnriched(
+    ids: string[],
+    userId: string,
+    trx?: Knex.Transaction
+  ): Promise<TaskListItem[]> {
+    const query = trx ? trx("tasks") : db("tasks");
+    const rows = await query
+      .leftJoin("task_priority_scores", "task_priority_scores.task_id", "tasks.id")
+      .select([
+        "tasks.*",
+        db.raw("COALESCE(task_priority_scores.total_score, 0.0) as total_score"),
+        db.raw(
+          "COALESCE(task_priority_scores.deadline_proximity_score, 0.0) as deadline_proximity_score"
+        ),
+        db.raw(
+          "COALESCE(task_priority_scores.dependency_impact_score, 0.0) as dependency_impact_score"
+        ),
+        db.raw(
+          "COALESCE(task_priority_scores.consequence_severity_score, 0.0) as consequence_severity_score"
+        ),
+        db.raw("COALESCE(task_priority_scores.priority_tier, 'low') as priority_tier"),
+        db.raw(
+          "EXISTS(SELECT 1 FROM action_drafts ad WHERE ad.task_id = tasks.id AND ad.is_active = true) as has_action_draft"
+        ),
+      ])
+      .whereIn("tasks.id", ids)
+      .where("tasks.user_id", userId)
+      .whereNull("tasks.deleted_at");
+
+    return rows.map((r) => mapRowToTaskListItem(r as unknown as Record<string, unknown>));
+  }
+
   async create(
     task: Omit<
       Task,
