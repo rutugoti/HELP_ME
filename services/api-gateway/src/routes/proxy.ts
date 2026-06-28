@@ -55,6 +55,8 @@ export function registerProxyRoutes(router: Router): void {
 
   // Task Service routes
   router.use("/api/v1/tasks", proxyOptions(config.services.taskService, "task-service"));
+  router.use("/api/v1/goals", proxyOptions(config.services.taskService, "task-service"));
+  router.use("/api/v1/habits", proxyOptions(config.services.taskService, "task-service"));
 
   // Calendar Service routes
   router.use("/api/v1/calendar", proxyOptions(config.services.calendarService, "calendar-service"));

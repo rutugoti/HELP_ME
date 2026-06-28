@@ -12,6 +12,9 @@ import type {
   ActionDraft,
   ActionDraftFeedback,
   TaskPriorityScore,
+  Goal,
+  GoalMilestone,
+  HabitLog,
 } from "@lastminute/types";
 import type { Knex } from "knex";
 
@@ -89,4 +92,50 @@ export interface ITaskPriorityScoreRepository {
     trx?: Knex.Transaction
   ): Promise<void>;
   getByTaskId(taskId: string, trx?: Knex.Transaction): Promise<TaskPriorityScore | null>;
+}
+
+export interface IGoalRepository {
+  listForUser(userId: string, trx?: Knex.Transaction): Promise<Goal[]>;
+  findById(id: string, userId: string, trx?: Knex.Transaction): Promise<Goal | null>;
+  create(
+    goal: Omit<Goal, "id" | "status" | "createdAt" | "updatedAt" | "deletedAt">,
+    trx?: Knex.Transaction
+  ): Promise<Goal>;
+  update(
+    id: string,
+    userId: string,
+    goal: Partial<Omit<Goal, "id" | "userId" | "createdAt" | "updatedAt" | "deletedAt">>,
+    trx?: Knex.Transaction
+  ): Promise<Goal>;
+  softDelete(id: string, userId: string, trx?: Knex.Transaction): Promise<void>;
+}
+
+export interface IGoalMilestoneRepository {
+  listForGoal(goalId: string, userId: string, trx?: Knex.Transaction): Promise<GoalMilestone[]>;
+  listForUser(userId: string, trx?: Knex.Transaction): Promise<GoalMilestone[]>;
+  createMilestones(
+    milestones: Omit<
+      GoalMilestone,
+      "id" | "isCompleted" | "completedAt" | "createdAt" | "updatedAt"
+    >[],
+    trx?: Knex.Transaction
+  ): Promise<void>;
+  updateMilestone(
+    id: string,
+    userId: string,
+    isCompleted: boolean,
+    trx?: Knex.Transaction
+  ): Promise<void>;
+  deleteForGoal(goalId: string, trx?: Knex.Transaction): Promise<void>;
+}
+
+export interface IHabitLogRepository {
+  listForUser(userId: string, trx?: Knex.Transaction): Promise<HabitLog[]>;
+  findByKey(
+    userId: string,
+    habitCategory: string,
+    logDate: string,
+    trx?: Knex.Transaction
+  ): Promise<HabitLog | null>;
+  upsert(log: Omit<HabitLog, "id" | "loggedAt">, trx?: Knex.Transaction): Promise<HabitLog>;
 }

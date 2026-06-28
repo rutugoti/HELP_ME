@@ -64,10 +64,14 @@ async function startServer() {
   });
 }
 
+import { queueClient } from "./utils/queue.js";
+
 // Graceful shutdown handlers
 async function shutdown(signal: string) {
   logger.info(`Received ${signal}. Shutting down gracefully...`);
   try {
+    logger.info("Closing queue client connection...");
+    await queueClient.close();
     logger.info("Closing database connection pool...");
     await db.destroy();
     logger.info("Database connection pool closed.");

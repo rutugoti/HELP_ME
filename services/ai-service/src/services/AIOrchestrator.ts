@@ -11,10 +11,25 @@ import { ActionEngine } from "./ActionEngine.js";
 import { logger } from "../config/logger.js";
 import { randomUUID } from "crypto";
 
+import { queueClient } from "../utils/queue.js";
+
 export class AIOrchestrator {
   private readonly priorityEngine = new PriorityEngine();
   private readonly contextEngine = new ContextEngine();
   private readonly actionEngine = new ActionEngine();
+
+  constructor() {
+    queueClient
+      .consume(async (data) => {
+        const userId = data["userId"] as string;
+        const triggerEvent = data["triggerEvent"] as string;
+        const jobId = data["jobId"] as string;
+        await this.runPrioritizationJob(userId, triggerEvent, jobId);
+      })
+      .catch((err) => {
+        logger.error("Failed to register queue consumer", { error: (err as Error).message });
+      });
+  }
 
   /**
    * Orchestrates the prioritization of all open tasks for a user.
@@ -23,14 +38,9 @@ export class AIOrchestrator {
   async orchestrateUserPrioritization(userId: string, triggerEvent: string): Promise<string> {
     const jobId = randomUUID();
 
-    // Fire-and-forget background job execution to prevent blocking Express request loops
-    this.runPrioritizationJob(userId, triggerEvent, jobId).catch((err) => {
-      logger.error("Orchestrated prioritization background run failed", {
-        userId,
-        jobId,
-        error: err.message,
-        stack: err.stack,
-      });
+    // Publish prioritization request to the message queue, with fallback to in-process memory queue
+    await queueClient.publish({ userId, triggerEvent, jobId }, async () => {
+      await this.runPrioritizationJob(userId, triggerEvent, jobId);
     });
 
     return jobId;

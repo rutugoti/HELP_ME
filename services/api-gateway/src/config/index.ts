@@ -23,6 +23,7 @@ const envSchema = z.object({
   // Rate limiting
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(60000),
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100),
+  REDIS_URL: z.string().url().optional(),
 });
 
 const result = envSchema.safeParse(process.env);
@@ -54,4 +55,5 @@ export const config = {
     windowMs: result.data.RATE_LIMIT_WINDOW_MS,
     maxRequests: result.data.RATE_LIMIT_MAX_REQUESTS,
   },
+  redisUrl: result.data.REDIS_URL || null,
 };

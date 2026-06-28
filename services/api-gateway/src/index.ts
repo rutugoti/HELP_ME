@@ -12,7 +12,7 @@ import { config } from "./config/index.js";
 import { logger } from "./config/logger.js";
 import { requestContextMiddleware } from "./middleware/requestContext.js";
 import { gatewayAuthMiddleware } from "./middleware/auth.js";
-import { rateLimiterMiddleware } from "./middleware/rateLimiter.js";
+import { rateLimiterMiddleware, closeRedisConnection } from "./middleware/rateLimiter.js";
 import { errorHandlerMiddleware } from "./middleware/errorHandler.js";
 import { registerProxyRoutes } from "./routes/proxy.js";
 import { initWebSocketServer, getActiveConnectionCount } from "./websocket/server.js";
@@ -96,8 +96,13 @@ function startServer() {
 }
 
 // Graceful shutdown handlers
-function shutdown(signal: string) {
+async function shutdown(signal: string) {
   logger.info(`Received ${signal}. Shutting down API Gateway gracefully...`);
+  try {
+    await closeRedisConnection();
+  } catch (err) {
+    logger.error("Error closing Redis rate limiter connection", { error: (err as Error).message });
+  }
   server.close(() => {
     logger.info("API Gateway HTTP server closed.");
     process.exit(0);

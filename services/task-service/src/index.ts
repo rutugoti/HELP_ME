@@ -12,6 +12,7 @@ import { logger } from "./config/logger.js";
 import { requestContextMiddleware } from "./middleware/requestContext.js";
 import { errorHandlerMiddleware } from "./middleware/errorHandler.js";
 import { taskRouter } from "./routes/task.js";
+import { goalRouter, habitRouter } from "./routes/goal.js";
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.get("/health", async (_req, res) => {
 
 // Mount routes
 app.use("/api/v1/tasks", taskRouter);
+app.use("/api/v1/goals", goalRouter);
+app.use("/api/v1/habits", habitRouter);
 
 // Global Error Handler
 app.use(errorHandlerMiddleware);
