@@ -37,6 +37,12 @@ importers:
 
   apps/mobile:
     dependencies:
+      "@lastminute/api-client":
+        specifier: workspace:^
+        version: link:../../packages/api-client
+      "@lastminute/schemas":
+        specifier: workspace:^
+        version: link:../../packages/schemas
       "@lastminute/types":
         specifier: workspace:^
         version: link:../../packages/types

@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
+    "@lastminute/api-client": "workspace:^",
+    "@lastminute/schemas": "workspace:^",
     "@lastminute/types": "workspace:^",
     "@react-navigation/bottom-tabs": "^7.18.3",
     "@react-navigation/native": "^7.3.4",
