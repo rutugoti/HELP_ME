@@ -38,6 +38,7 @@ habitRouter.use(authMiddleware);
 // Goal Routes (mounted at /api/v1/goals)
 goalRouter.get("/", controller.listGoals);
 goalRouter.post("/", validateBody(createGoalSchema), controller.createGoal);
+goalRouter.get("/:goalId/milestones", controller.getMilestones);
 goalRouter.put("/:goalId", controller.updateGoal);
 goalRouter.post("/milestones/:milestoneId/toggle", controller.toggleMilestone);
 goalRouter.delete("/:goalId", controller.deleteGoal);

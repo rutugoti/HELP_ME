@@ -54,6 +54,20 @@ export class GoalController {
   };
 
   /**
+   * GET /api/v1/goals/:goalId/milestones
+   */
+  getMilestones = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user!.userId;
+      const { goalId } = req.params;
+      const milestones = await this.goalService.listMilestones(goalId!, userId);
+      res.status(200).json({ status: "success", data: milestones });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  /**
    * POST /api/v1/goals/milestones/:milestoneId/toggle
    */
   toggleMilestone = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

@@ -41,11 +41,18 @@ export type CalendarStackParamList = {
   Availability: undefined;
 };
 
+export type GoalsStackParamList = {
+  GoalsMain: undefined;
+  GoalDetail: { goalId: string; title: string };
+  GoalCreate: undefined;
+  HabitTracker: undefined;
+};
+
 export type AppTabParamList = {
   DashboardTab: NavigatorScreenParams<DashboardStackParamList>;
   TasksTab: NavigatorScreenParams<TasksStackParamList>;
   CalendarTab: NavigatorScreenParams<CalendarStackParamList>;
-  GoalsTab: undefined;
+  GoalsTab: NavigatorScreenParams<GoalsStackParamList>;
   SettingsTab: undefined;
 };
 

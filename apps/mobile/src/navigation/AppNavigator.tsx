@@ -15,19 +15,11 @@ import { useAuthStore } from "../store/authStore";
 import { DashboardNavigator } from "./DashboardNavigator";
 import { TasksNavigator } from "./TasksNavigator";
 import { CalendarNavigator } from "./CalendarNavigator";
+import { GoalsNavigator } from "./GoalsNavigator";
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
 
 // Placeholders for Goals and Settings
-const GoalsPlaceholder: React.FC = () => (
-  <View style={styles.centered}>
-    <Typography variant="h3">Goals & Habits</Typography>
-    <Typography variant="caption" color={colors.text.secondary} style={styles.text}>
-      Goal definitions and habits tracking will be built in Session 16.
-    </Typography>
-  </View>
-);
-
 const SettingsPlaceholder: React.FC = () => {
   const { logout, user } = useAuthStore();
   return (
@@ -96,7 +88,7 @@ export const AppNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="GoalsTab"
-        component={GoalsPlaceholder}
+        component={GoalsNavigator}
         options={{
           tabBarLabel: "Goals",
           tabBarIcon: ({ color }) => (

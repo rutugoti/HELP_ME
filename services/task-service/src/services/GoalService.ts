@@ -3,7 +3,7 @@
 // Manages goal lifecycle and auto-generation of weekly milestones.
 // ─────────────────────────────────────────────────────────────
 
-import type { Goal, GoalWithProgress, CreateGoalInput } from "@lastminute/types";
+import type { Goal, GoalWithProgress, CreateGoalInput, GoalMilestone } from "@lastminute/types";
 import { GoalStatus } from "@lastminute/types";
 import type { IGoalRepository, IGoalMilestoneRepository } from "../repositories/interfaces.js";
 import { db } from "@lastminute/database";
@@ -125,6 +125,13 @@ export class GoalService {
     });
     logger.info("Goal updated", { goalId: id, userId });
     return updated;
+  }
+
+  /**
+   * Lists milestones for a specific goal.
+   */
+  async listMilestones(goalId: string, userId: string): Promise<GoalMilestone[]> {
+    return this.milestoneRepo.listForGoal(goalId, userId);
   }
 
   /**
