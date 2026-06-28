@@ -35,9 +35,16 @@ export type TasksStackParamList = {
   ActionDraft: { taskId: string };
 };
 
+export type CalendarStackParamList = {
+  CalendarMain: undefined;
+  FocusBlock: { startsAt: string; endsAt: string; durationMinutes: number };
+  Availability: undefined;
+};
+
 export type AppTabParamList = {
   DashboardTab: NavigatorScreenParams<DashboardStackParamList>;
   TasksTab: NavigatorScreenParams<TasksStackParamList>;
+  CalendarTab: NavigatorScreenParams<CalendarStackParamList>;
   GoalsTab: undefined;
   SettingsTab: undefined;
 };

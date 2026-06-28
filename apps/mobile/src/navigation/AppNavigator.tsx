@@ -14,6 +14,7 @@ import { useAuthStore } from "../store/authStore";
 // Navigators
 import { DashboardNavigator } from "./DashboardNavigator";
 import { TasksNavigator } from "./TasksNavigator";
+import { CalendarNavigator } from "./CalendarNavigator";
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
 
@@ -77,6 +78,18 @@ export const AppNavigator: React.FC = () => {
           tabBarIcon: ({ color }) => (
             <Typography variant="bodyBold" style={{ color }}>
               ⚡
+            </Typography>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="CalendarTab"
+        component={CalendarNavigator}
+        options={{
+          tabBarLabel: "Calendar",
+          tabBarIcon: ({ color }) => (
+            <Typography variant="bodyBold" style={{ color }}>
+              📅
             </Typography>
           ),
         }}
