@@ -31,6 +31,8 @@ export type TasksStackParamList = {
   TaskDetail: { taskId: string };
   TaskCreate: undefined;
   TaskEdit: { taskId: string };
+  TaskDependency: { taskId: string };
+  ActionDraft: { taskId: string };
 };
 
 export type AppTabParamList = {
