@@ -8,6 +8,7 @@
     { "path": "packages/database" },
     { "path": "services/user-service" },
     { "path": "services/task-service" },
-    { "path": "services/calendar-service" }
+    { "path": "services/calendar-service" },
+    { "path": "services/ai-service" }
   ]
 }

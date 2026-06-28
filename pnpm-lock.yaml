@@ -102,6 +102,61 @@ importers:
         specifier: ^3.0.0
         version: 3.2.6(@types/node@26.0.1)(jiti@2.6.1)(yaml@2.9.0)
 
+  services/ai-service:
+    dependencies:
+      "@lastminute/database":
+        specifier: workspace:*
+        version: link:../../packages/database
+      "@lastminute/schemas":
+        specifier: workspace:*
+        version: link:../../packages/schemas
+      "@lastminute/types":
+        specifier: workspace:*
+        version: link:../../packages/types
+      "@lastminute/utils":
+        specifier: workspace:*
+        version: link:../../packages/utils
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.6
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.6.1
+      express:
+        specifier: ^4.19.2
+        version: 4.22.2
+      helmet:
+        specifier: ^7.1.0
+        version: 7.2.0
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.3
+      knex:
+        specifier: ^3.1.0
+        version: 3.3.0(pg@8.22.0)
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      "@types/cors":
+        specifier: ^2.8.17
+        version: 2.8.19
+      "@types/express":
+        specifier: ^4.17.21
+        version: 4.17.25
+      "@types/jsonwebtoken":
+        specifier: ^9.0.6
+        version: 9.0.10
+      "@types/node":
+        specifier: ^20.14.0
+        version: 20.19.43
+      ts-node-dev:
+        specifier: ^2.0.0
+        version: 2.0.0(@types/node@20.19.43)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
   services/calendar-service:
     dependencies:
       "@lastminute/database":
