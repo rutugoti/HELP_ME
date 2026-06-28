@@ -3,13 +3,13 @@
 // ─────────────────────────────────────────────────────────────
 
 import React from "react";
-import { StyleSheet, View, ViewStyle, TouchableOpacity } from "react-native";
+import { StyleSheet, View, ViewStyle, TouchableOpacity, StyleProp } from "react-native";
 import { colors } from "../../constants/colors";
 import { spacing, radii } from "../../constants/spacing";
 
 export interface CardProps {
   onPress?: () => void;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   variant?: "primary" | "secondary" | "outline";
   noPadding?: boolean;
   children: React.ReactNode;

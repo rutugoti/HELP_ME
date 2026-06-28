@@ -20,10 +20,30 @@ export type OnboardingStackParamList = {
   NotificationPermission: undefined;
 };
 
+export type DashboardStackParamList = {
+  Dashboard: undefined;
+  PriorityList: undefined;
+  DailyBrief: undefined;
+};
+
+export type TasksStackParamList = {
+  TaskList: undefined;
+  TaskDetail: { taskId: string };
+  TaskCreate: undefined;
+  TaskEdit: { taskId: string };
+};
+
+export type AppTabParamList = {
+  DashboardTab: NavigatorScreenParams<DashboardStackParamList>;
+  TasksTab: NavigatorScreenParams<TasksStackParamList>;
+  GoalsTab: undefined;
+  SettingsTab: undefined;
+};
+
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;
   Onboarding: NavigatorScreenParams<OnboardingStackParamList>;
-  App: undefined; // Will be NavigatorScreenParams<AppStackParamList> in Session 13
+  App: NavigatorScreenParams<AppTabParamList>;
 };
 
 declare global {
