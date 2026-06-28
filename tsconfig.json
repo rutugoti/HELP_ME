@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/types" },
+    { "path": "packages/utils" },
+    { "path": "packages/schemas" },
+    { "path": "packages/api-client" },
+    { "path": "packages/database" }
+  ]
+}

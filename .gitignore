@@ -34,3 +34,6 @@ pnpm-debug.log*
 *.pem
 *.key
 *.cert
+
+# TS Build Info
+*.tsbuildinfo

@@ -4,11 +4,11 @@
   "private": true,
   "description": "LastMinute — AI Productivity Companion",
   "scripts": {
-    "build": "pnpm -r run build",
+    "build": "tsc --build",
     "lint": "pnpm -r run lint",
     "test": "pnpm -r run test",
-    "clean": "pnpm -r run clean",
-    "typecheck": "pnpm -r run typecheck",
+    "clean": "tsc --build --clean",
+    "typecheck": "tsc --build",
     "prepare": "husky"
   },
   "engines": {
