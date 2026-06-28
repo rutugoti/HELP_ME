@@ -1,0 +1,22 @@
+{
+  "name": "@lastminute/database",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "migrate:latest": "knex migrate:latest --knexfile knexfile.ts",
+    "migrate:status": "knex migrate:status --knexfile knexfile.ts",
+    "migrate:make": "knex migrate:make --knexfile knexfile.ts -x ts",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "knex": "^3.1.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.7.0",
+    "ts-node": "^10.9.0"
+  }
+}
