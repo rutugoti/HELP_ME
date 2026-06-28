@@ -5,6 +5,7 @@
     { "path": "packages/utils" },
     { "path": "packages/schemas" },
     { "path": "packages/api-client" },
-    { "path": "packages/database" }
+    { "path": "packages/database" },
+    { "path": "services/user-service" }
   ]
 }
