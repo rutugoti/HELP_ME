@@ -53,9 +53,7 @@ export function createApiClient(config: ApiClientConfig): KyInstance {
  * Extracts the data payload from a standard API response.
  * Throws a typed ApiError if the response indicates failure.
  */
-export async function unwrapResponse<T>(
-  responsePromise: Promise<ApiResponse<T>>
-): Promise<T> {
+export async function unwrapResponse<T>(responsePromise: Promise<ApiResponse<T>>): Promise<T> {
   const response = await responsePromise;
   if (response.status === "error") {
     throw response.data as unknown as ApiError;

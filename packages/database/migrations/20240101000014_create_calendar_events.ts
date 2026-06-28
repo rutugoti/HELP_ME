@@ -14,7 +14,12 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("calendar_events", (table) => {
     table.uuid("id").primary().notNullable();
-    table.uuid("provider_id").notNullable().references("id").inTable("calendar_providers").onDelete("CASCADE");
+    table
+      .uuid("provider_id")
+      .notNullable()
+      .references("id")
+      .inTable("calendar_providers")
+      .onDelete("CASCADE");
     table.uuid("user_id").notNullable().references("id").inTable("users").onDelete("CASCADE");
     table.string("external_event_id", 500).notNullable();
     table.string("title", 500).nullable();
@@ -35,7 +40,7 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(_knex: Knex): Promise<void> {
-  throw new Error("Down migrations are not supported. Write a corrective migration instead. (Rule 6)");
+  throw new Error(
+    "Down migrations are not supported. Write a corrective migration instead. (Rule 6)"
+  );
 }
-
-

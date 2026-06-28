@@ -36,9 +36,7 @@ export async function dismissRecommendation(
 }
 
 /** Returns behavioral insights from the Context Engine. */
-export async function getInsights(
-  client: KyInstance
-): Promise<ApiResponse<BehavioralInsights>> {
+export async function getInsights(client: KyInstance): Promise<ApiResponse<BehavioralInsights>> {
   return client.get("api/v1/ai/insights").json();
 }
 

@@ -28,7 +28,7 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(_knex: Knex): Promise<void> {
-  throw new Error("Down migrations are not supported. Write a corrective migration instead. (Rule 6)");
+  throw new Error(
+    "Down migrations are not supported. Write a corrective migration instead. (Rule 6)"
+  );
 }
-
-

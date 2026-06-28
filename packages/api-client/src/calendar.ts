@@ -31,16 +31,11 @@ export async function connectProvider(
   client: KyInstance,
   input: ConnectProviderInput
 ): Promise<ApiResponse<ConnectProviderResponse>> {
-  return client
-    .post("api/v1/calendar/providers/connect", { json: input })
-    .json();
+  return client.post("api/v1/calendar/providers/connect", { json: input }).json();
 }
 
 /** Disconnects a calendar provider and revokes tokens. */
-export async function disconnectProvider(
-  client: KyInstance,
-  providerId: UUID
-): Promise<void> {
+export async function disconnectProvider(client: KyInstance, providerId: UUID): Promise<void> {
   await client.delete(`api/v1/calendar/providers/${providerId}`);
 }
 
@@ -61,15 +56,10 @@ export async function createFocusBlock(
   client: KyInstance,
   input: CreateFocusBlockInput
 ): Promise<ApiResponse<FocusBlock>> {
-  return client
-    .post("api/v1/calendar/focus-blocks", { json: input })
-    .json();
+  return client.post("api/v1/calendar/focus-blocks", { json: input }).json();
 }
 
 /** Cancels a previously scheduled focus block. */
-export async function cancelFocusBlock(
-  client: KyInstance,
-  blockId: UUID
-): Promise<void> {
+export async function cancelFocusBlock(client: KyInstance, blockId: UUID): Promise<void> {
   await client.delete(`api/v1/calendar/focus-blocks/${blockId}`);
 }

@@ -15,7 +15,10 @@ export interface CalendarProvider extends BaseEntity {
 }
 
 /** Public view of calendar provider — excludes encrypted tokens. */
-export type CalendarProviderPublic = Omit<CalendarProvider, "accessTokenEncrypted" | "refreshTokenEncrypted">;
+export type CalendarProviderPublic = Omit<
+  CalendarProvider,
+  "accessTokenEncrypted" | "refreshTokenEncrypted"
+>;
 
 /** Local cache of a calendar event from an external provider. */
 export interface CalendarEvent {

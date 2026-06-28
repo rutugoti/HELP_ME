@@ -6,9 +6,7 @@
 import { z } from "zod";
 
 /** UUID v4 format validator. */
-export const uuidSchema = z
-  .string()
-  .uuid("Must be a valid UUID v4");
+export const uuidSchema = z.string().uuid("Must be a valid UUID v4");
 
 /** ISO 8601 datetime string validator. */
 export const isoDateTimeSchema = z
@@ -40,11 +38,13 @@ export function apiResponseSchema<T extends z.ZodTypeAny>(dataSchema: T) {
   return z.object({
     status: z.enum(["success", "error"]),
     data: dataSchema,
-    meta: z.object({
-      nextCursor: z.string().nullable().default(null),
-      hasMore: z.boolean().default(false),
-      totalCount: z.number().int().optional(),
-    }).default({}),
+    meta: z
+      .object({
+        nextCursor: z.string().nullable().default(null),
+        hasMore: z.boolean().default(false),
+        totalCount: z.number().int().optional(),
+      })
+      .default({}),
   });
 }
 
@@ -67,9 +67,6 @@ export const workingDaysSchema = z
   .array(z.number().int().min(0).max(6))
   .min(1, "At least one working day required")
   .max(7)
-  .refine(
-    (days) => new Set(days).size === days.length,
-    "Working days must not contain duplicates"
-  );
+  .refine((days) => new Set(days).size === days.length, "Working days must not contain duplicates");
 
 export type PaginationQuery = z.infer<typeof paginationQuerySchema>;

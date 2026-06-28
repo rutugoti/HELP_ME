@@ -1,4 +1,10 @@
-import type { BaseEntity, ISODateString, ISODateTimeString, SoftDeletableEntity, UUID } from "./common.js";
+import type {
+  BaseEntity,
+  ISODateString,
+  ISODateTimeString,
+  SoftDeletableEntity,
+  UUID,
+} from "./common.js";
 import type { GoalStatus } from "./enums.js";
 
 /** User-defined long-horizon goal. */

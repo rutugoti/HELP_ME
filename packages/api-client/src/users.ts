@@ -4,18 +4,11 @@
 // ─────────────────────────────────────────────────────────────
 
 import type { KyInstance } from "ky";
-import type {
-  ApiResponse,
-  UserPublic,
-  UserPreferences,
-  UserStats,
-} from "@lastminute/types";
+import type { ApiResponse, UserPublic, UserPreferences, UserStats } from "@lastminute/types";
 import type { UpdateUserInput, UpdatePreferencesInput } from "@lastminute/schemas";
 
 /** Returns the authenticated user's profile. */
-export async function getMe(
-  client: KyInstance
-): Promise<ApiResponse<UserPublic>> {
+export async function getMe(client: KyInstance): Promise<ApiResponse<UserPublic>> {
   return client.get("api/v1/users/me").json();
 }
 
@@ -28,9 +21,7 @@ export async function updateMe(
 }
 
 /** Returns the full preference object. */
-export async function getPreferences(
-  client: KyInstance
-): Promise<ApiResponse<UserPreferences>> {
+export async function getPreferences(client: KyInstance): Promise<ApiResponse<UserPreferences>> {
   return client.get("api/v1/users/me/preferences").json();
 }
 
@@ -43,8 +34,6 @@ export async function updatePreferences(
 }
 
 /** Returns aggregated productivity statistics. */
-export async function getStats(
-  client: KyInstance
-): Promise<ApiResponse<UserStats>> {
+export async function getStats(client: KyInstance): Promise<ApiResponse<UserStats>> {
   return client.get("api/v1/users/me/stats").json();
 }

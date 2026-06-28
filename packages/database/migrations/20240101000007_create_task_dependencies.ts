@@ -14,8 +14,18 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("task_dependencies", (table) => {
     table.uuid("id").primary().notNullable();
-    table.uuid("dependent_task_id").notNullable().references("id").inTable("tasks").onDelete("CASCADE");
-    table.uuid("required_task_id").notNullable().references("id").inTable("tasks").onDelete("CASCADE");
+    table
+      .uuid("dependent_task_id")
+      .notNullable()
+      .references("id")
+      .inTable("tasks")
+      .onDelete("CASCADE");
+    table
+      .uuid("required_task_id")
+      .notNullable()
+      .references("id")
+      .inTable("tasks")
+      .onDelete("CASCADE");
     table.timestamp("created_at", { useTz: true }).notNullable().defaultTo(knex.fn.now());
 
     // Unique constraint to prevent duplicate edges
@@ -37,7 +47,7 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(_knex: Knex): Promise<void> {
-  throw new Error("Down migrations are not supported. Write a corrective migration instead. (Rule 6)");
+  throw new Error(
+    "Down migrations are not supported. Write a corrective migration instead. (Rule 6)"
+  );
 }
-
-

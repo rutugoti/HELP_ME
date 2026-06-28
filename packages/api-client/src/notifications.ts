@@ -8,25 +8,17 @@ import type { ApiResponse, Notification, UUID } from "@lastminute/types";
 import type { UpdateNotificationPreferencesInput } from "@lastminute/schemas";
 
 /** Returns notification history sorted by timestamp descending. */
-export async function getNotifications(
-  client: KyInstance
-): Promise<ApiResponse<Notification[]>> {
+export async function getNotifications(client: KyInstance): Promise<ApiResponse<Notification[]>> {
   return client.get("api/v1/notifications").json();
 }
 
 /** Marks a notification as read. */
-export async function markRead(
-  client: KyInstance,
-  notificationId: UUID
-): Promise<void> {
+export async function markRead(client: KyInstance, notificationId: UUID): Promise<void> {
   await client.post(`api/v1/notifications/${notificationId}/read`);
 }
 
 /** Marks a notification as acted on. */
-export async function markActed(
-  client: KyInstance,
-  notificationId: UUID
-): Promise<void> {
+export async function markActed(client: KyInstance, notificationId: UUID): Promise<void> {
   await client.post(`api/v1/notifications/${notificationId}/acted`);
 }
 

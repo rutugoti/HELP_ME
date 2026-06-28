@@ -28,9 +28,7 @@ export async function refreshToken(
   client: KyInstance,
   token: string
 ): Promise<ApiResponse<AuthTokens>> {
-  return client
-    .post("api/v1/auth/refresh", { json: { refreshToken: token } })
-    .json();
+  return client.post("api/v1/auth/refresh", { json: { refreshToken: token } }).json();
 }
 
 /** Invalidates the current refresh token. */
@@ -39,19 +37,13 @@ export async function logout(client: KyInstance): Promise<void> {
 }
 
 /** Sends a password reset link to the provided email. */
-export async function requestPasswordReset(
-  client: KyInstance,
-  email: string
-): Promise<void> {
+export async function requestPasswordReset(client: KyInstance, email: string): Promise<void> {
   await client.post("api/v1/auth/password/reset-request", {
     json: { email },
   });
 }
 
 /** Resets password using a reset token. */
-export async function resetPassword(
-  client: KyInstance,
-  input: PasswordResetInput
-): Promise<void> {
+export async function resetPassword(client: KyInstance, input: PasswordResetInput): Promise<void> {
   await client.post("api/v1/auth/password/reset", { json: input });
 }

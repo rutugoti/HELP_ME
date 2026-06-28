@@ -3,7 +3,13 @@
 // Derived from Db.md: users, refresh_tokens, user_preferences
 // ─────────────────────────────────────────────────────────────
 
-import type { BaseEntity, ISODateTimeString, SoftDeletableEntity, TimeString, UUID } from "./common.js";
+import type {
+  BaseEntity,
+  ISODateTimeString,
+  SoftDeletableEntity,
+  TimeString,
+  UUID,
+} from "./common.js";
 import type { EscalationThreshold, NotificationChannel, UserRole } from "./enums.js";
 
 // ── users table ──────────────────────────────────────────────

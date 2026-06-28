@@ -26,7 +26,9 @@ export async function listTasks(
   query?: TaskListQuery
 ): Promise<ApiResponse<TaskListItem[]>> {
   return client
-    .get("api/v1/tasks", { searchParams: toSearchParams(query as Record<string, string | number | boolean | undefined>) })
+    .get("api/v1/tasks", {
+      searchParams: toSearchParams(query as Record<string, string | number | boolean | undefined>),
+    })
     .json();
 }
 
@@ -39,10 +41,7 @@ export async function createTask(
 }
 
 /** Returns a single task with full detail. */
-export async function getTask(
-  client: KyInstance,
-  taskId: UUID
-): Promise<ApiResponse<Task>> {
+export async function getTask(client: KyInstance, taskId: UUID): Promise<ApiResponse<Task>> {
   return client.get(`api/v1/tasks/${taskId}`).json();
 }
 
@@ -56,26 +55,17 @@ export async function updateTask(
 }
 
 /** Soft-deletes a task. */
-export async function deleteTask(
-  client: KyInstance,
-  taskId: UUID
-): Promise<void> {
+export async function deleteTask(client: KyInstance, taskId: UUID): Promise<void> {
   await client.delete(`api/v1/tasks/${taskId}`);
 }
 
 /** Marks a task as in-progress. */
-export async function startTask(
-  client: KyInstance,
-  taskId: UUID
-): Promise<ApiResponse<Task>> {
+export async function startTask(client: KyInstance, taskId: UUID): Promise<ApiResponse<Task>> {
   return client.post(`api/v1/tasks/${taskId}/start`).json();
 }
 
 /** Marks a task as complete. */
-export async function completeTask(
-  client: KyInstance,
-  taskId: UUID
-): Promise<ApiResponse<Task>> {
+export async function completeTask(client: KyInstance, taskId: UUID): Promise<ApiResponse<Task>> {
   return client.post(`api/v1/tasks/${taskId}/complete`).json();
 }
 
@@ -111,7 +101,5 @@ export async function bulkPrioritize(
   client: KyInstance,
   taskIds: UUID[]
 ): Promise<ApiResponse<TaskListItem[]>> {
-  return client
-    .post("api/v1/tasks/bulk-prioritize", { json: { taskIds } })
-    .json();
+  return client.post("api/v1/tasks/bulk-prioritize", { json: { taskIds } }).json();
 }

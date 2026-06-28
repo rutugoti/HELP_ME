@@ -4,19 +4,11 @@
 // ─────────────────────────────────────────────────────────────
 
 import type { KyInstance } from "ky";
-import type {
-  ApiResponse,
-  GoalWithProgress,
-  Goal,
-  HabitSummary,
-  UUID,
-} from "@lastminute/types";
+import type { ApiResponse, GoalWithProgress, Goal, HabitSummary, UUID } from "@lastminute/types";
 import type { CreateGoalInput, LogHabitInput } from "@lastminute/schemas";
 
 /** Returns all active goals with progress and projections. */
-export async function getGoals(
-  client: KyInstance
-): Promise<ApiResponse<GoalWithProgress[]>> {
+export async function getGoals(client: KyInstance): Promise<ApiResponse<GoalWithProgress[]>> {
   return client.get("api/v1/goals").json();
 }
 
@@ -29,9 +21,7 @@ export async function createGoal(
 }
 
 /** Returns habit tracking data with streaks and drift alerts. */
-export async function getHabits(
-  client: KyInstance
-): Promise<ApiResponse<HabitSummary[]>> {
+export async function getHabits(client: KyInstance): Promise<ApiResponse<HabitSummary[]>> {
   return client.get("api/v1/habits").json();
 }
 

@@ -19,7 +19,13 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.schema.createTable("user_preferences", (table) => {
     table.uuid("id").primary().notNullable();
-    table.uuid("user_id").unique().notNullable().references("id").inTable("users").onDelete("CASCADE");
+    table
+      .uuid("user_id")
+      .unique()
+      .notNullable()
+      .references("id")
+      .inTable("users")
+      .onDelete("CASCADE");
     table.jsonb("notification_low_channels").notNullable();
     table.jsonb("notification_medium_channels").notNullable();
     table.jsonb("notification_high_channels").notNullable();
@@ -39,7 +45,7 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(_knex: Knex): Promise<void> {
-  throw new Error("Down migrations are not supported. Write a corrective migration instead. (Rule 6)");
+  throw new Error(
+    "Down migrations are not supported. Write a corrective migration instead. (Rule 6)"
+  );
 }
-
-
