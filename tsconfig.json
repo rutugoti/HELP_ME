@@ -11,6 +11,7 @@
     { "path": "services/calendar-service" },
     { "path": "services/ai-service" },
     { "path": "services/notification-service" },
-    { "path": "services/api-gateway" }
+    { "path": "services/api-gateway" },
+    { "path": "apps/mobile" }
   ]
 }
