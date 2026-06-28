@@ -9,6 +9,8 @@
     { "path": "services/user-service" },
     { "path": "services/task-service" },
     { "path": "services/calendar-service" },
-    { "path": "services/ai-service" }
+    { "path": "services/ai-service" },
+    { "path": "services/notification-service" },
+    { "path": "services/api-gateway" }
   ]
 }
