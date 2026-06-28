@@ -24,6 +24,9 @@ export type DashboardStackParamList = {
   Dashboard: undefined;
   PriorityList: undefined;
   DailyBrief: undefined;
+  Insights: undefined;
+  ProductivityStats: undefined;
+  BehaviorReport: undefined;
 };
 
 export type TasksStackParamList = {
@@ -48,12 +51,21 @@ export type GoalsStackParamList = {
   HabitTracker: undefined;
 };
 
+export type SettingsStackParamList = {
+  SettingsMain: undefined;
+  Profile: undefined;
+  NotificationSettings: undefined;
+  EscalationSettings: undefined;
+  CalendarSettings: undefined;
+  PrivacySettings: undefined;
+};
+
 export type AppTabParamList = {
   DashboardTab: NavigatorScreenParams<DashboardStackParamList>;
   TasksTab: NavigatorScreenParams<TasksStackParamList>;
   CalendarTab: NavigatorScreenParams<CalendarStackParamList>;
   GoalsTab: NavigatorScreenParams<GoalsStackParamList>;
-  SettingsTab: undefined;
+  SettingsTab: NavigatorScreenParams<SettingsStackParamList>;
 };
 
 export type RootStackParamList = {

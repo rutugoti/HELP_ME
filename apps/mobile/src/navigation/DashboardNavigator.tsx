@@ -11,6 +11,7 @@ import { DashboardStackParamList } from "./types";
 import { DashboardScreen } from "../screens/dashboard/DashboardScreen";
 import { PriorityListScreen } from "../screens/dashboard/PriorityListScreen";
 import { DailyBriefScreen } from "../screens/dashboard/DailyBriefScreen";
+import { InsightsScreen, ProductivityStatsScreen, BehaviorReportScreen } from "../screens/insights";
 
 const Stack = createNativeStackNavigator<DashboardStackParamList>();
 
@@ -26,6 +27,9 @@ export const DashboardNavigator: React.FC = () => {
       <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="PriorityList" component={PriorityListScreen} />
       <Stack.Screen name="DailyBrief" component={DailyBriefScreen} />
+      <Stack.Screen name="Insights" component={InsightsScreen} />
+      <Stack.Screen name="ProductivityStats" component={ProductivityStatsScreen} />
+      <Stack.Screen name="BehaviorReport" component={BehaviorReportScreen} />
     </Stack.Navigator>
   );
 };

@@ -13,6 +13,7 @@ import { useTasks } from "../../hooks/useTasks";
 import { usePriorityScores } from "../../hooks/usePriorityScores";
 import { DashboardStackParamList } from "../../navigation/types";
 import { TaskListItem } from "@lastminute/types";
+import { NotificationBell } from "../../components/notifications";
 
 type Props = NativeStackScreenProps<DashboardStackParamList, "Dashboard">;
 
@@ -38,9 +39,12 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Welcome Section */}
-        <View style={styles.welcomeSection}>
-          <Typography variant="h2">Dashboard</Typography>
-          <Typography variant="bodyMuted">Defend your time and stay ahead.</Typography>
+        <View style={styles.welcomeRow}>
+          <View style={styles.welcomeSection}>
+            <Typography variant="h2">Dashboard</Typography>
+            <Typography variant="bodyMuted">Defend your time and stay ahead.</Typography>
+          </View>
+          <NotificationBell />
         </View>
 
         {/* Daily Brief Callout */}
@@ -56,6 +60,27 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
               </Typography>
               <Typography variant="caption" style={styles.briefText}>
                 Get your personalized AI analysis, priority changes, and day protection schedule.
+              </Typography>
+            </View>
+            <Typography variant="body" color={colors.accent.primary} style={styles.arrowIcon}>
+              ➔
+            </Typography>
+          </Card>
+        </TouchableOpacity>
+
+        {/* Insights Callout */}
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => navigation.navigate("Insights")}
+          style={styles.briefCardContainer}
+        >
+          <Card style={[styles.briefCard, styles.insightsCard]}>
+            <View style={styles.briefInfo}>
+              <Typography variant="bodyBold" color={colors.white}>
+                📊 View AI Insights & Stats
+              </Typography>
+              <Typography variant="caption" style={styles.briefText}>
+                Analyze your rolling productivity score, optimal focus windows, and category trends.
               </Typography>
             </View>
             <Typography variant="body" color={colors.accent.primary} style={styles.arrowIcon}>
@@ -148,9 +173,15 @@ const styles = StyleSheet.create({
   container: {
     padding: spacing.lg,
   },
-  welcomeSection: {
+  welcomeRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: spacing.sm,
     marginBottom: spacing.lg,
+  },
+  welcomeSection: {
+    flex: 1,
   },
   briefCardContainer: {
     marginBottom: spacing.lg,
@@ -163,6 +194,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: spacing.md,
+  },
+  insightsCard: {
+    borderColor: colors.accent.primary,
   },
   briefInfo: {
     flex: 1,
