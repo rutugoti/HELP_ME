@@ -3,7 +3,15 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../constants/colors";
 import { spacing } from "../../constants/spacing";
@@ -28,82 +36,87 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
       >
-        <View style={styles.header}>
-          <Typography variant="h2" style={styles.title}>
-            Welcome Back
-          </Typography>
-          <Typography variant="bodyMuted">Sign in to access your priority task queue.</Typography>
-        </View>
-
-        <Card style={styles.card}>
-          <Input
-            label="Email Address"
-            placeholder="e.g. executive@domain.com"
-            value={email}
-            onChangeText={(val) => {
-              setEmail(val);
-              setError(null);
-            }}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            autoComplete="email"
-          />
-
-          <Input
-            label="Password"
-            placeholder="Enter your password"
-            value={password}
-            onChangeText={(val) => {
-              setPassword(val);
-              setError(null);
-            }}
-            secureTextEntry
-            autoCapitalize="none"
-            autoComplete="password"
-          />
-
-          <TouchableOpacity
-            style={styles.forgotContainer}
-            onPress={() => navigation.navigate("ForgotPassword")}
-            activeOpacity={0.7}
-          >
-            <Typography variant="caption" color={colors.accent.primary}>
-              Forgot Password?
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.header}>
+            <Typography variant="h2" style={styles.title}>
+              Welcome Back
             </Typography>
-          </TouchableOpacity>
+            <Typography variant="bodyMuted">Sign in to access your priority task queue.</Typography>
+          </View>
 
-          {error && (
-            <Typography
-              variant="captionMuted"
-              color={colors.priority.critical}
-              style={styles.errorText}
+          <Card style={styles.card}>
+            <Input
+              label="Email Address"
+              placeholder="e.g. executive@domain.com"
+              value={email}
+              onChangeText={(val) => {
+                setEmail(val);
+                setError(null);
+              }}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              autoComplete="email"
+            />
+
+            <Input
+              label="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChangeText={(val) => {
+                setPassword(val);
+                setError(null);
+              }}
+              secureTextEntry
+              autoCapitalize="none"
+              autoComplete="password"
+            />
+
+            <TouchableOpacity
+              style={styles.forgotContainer}
+              onPress={() => navigation.navigate("ForgotPassword")}
+              activeOpacity={0.7}
             >
-              {error}
-            </Typography>
-          )}
+              <Typography variant="caption" color={colors.accent.primary}>
+                Forgot Password?
+              </Typography>
+            </TouchableOpacity>
 
-          <Button
-            variant="primary"
-            title="Sign In"
-            onPress={handleLogin}
-            isLoading={isLoading}
-            style={styles.loginButton}
-          />
-        </Card>
+            {error && (
+              <Typography
+                variant="captionMuted"
+                color={colors.priority.critical}
+                style={styles.errorText}
+              >
+                {error}
+              </Typography>
+            )}
 
-        <View style={styles.footer}>
-          <Typography variant="bodyMuted">Don't have an account? </Typography>
-          <TouchableOpacity onPress={() => navigation.navigate("RoleSelect")} activeOpacity={0.7}>
-            <Typography variant="bodyBold" color={colors.accent.primary}>
-              Sign Up
-            </Typography>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            <Button
+              variant="primary"
+              title="Sign In"
+              onPress={handleLogin}
+              isLoading={isLoading}
+              style={styles.loginButton}
+            />
+          </Card>
+
+          <View style={styles.footer}>
+            <Typography variant="bodyMuted">Don't have an account? </Typography>
+            <TouchableOpacity onPress={() => navigation.navigate("RoleSelect")} activeOpacity={0.7}>
+              <Typography variant="bodyBold" color={colors.accent.primary}>
+                Sign Up
+              </Typography>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -112,6 +125,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   scrollContainer: {
     flexGrow: 1,

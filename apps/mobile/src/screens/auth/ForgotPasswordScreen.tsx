@@ -3,7 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../constants/colors";
 import { spacing } from "../../constants/spacing";
@@ -31,78 +32,83 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Typography variant="h2" style={styles.title}>
-            Forgot Password
-          </Typography>
-          <Typography variant="bodyMuted" align="center">
-            {success
-              ? "Check your inbox for a recovery link."
-              : "Enter your account email to receive a password reset link."}
-          </Typography>
-        </View>
-
-        <Card style={styles.card}>
-          {success ? (
-            <View style={styles.successContainer}>
-              <Typography variant="body" align="center" style={styles.successMessage}>
-                We've sent reset instructions to {email}.
-              </Typography>
-              <Button
-                variant="primary"
-                title="Back to Login"
-                onPress={() => navigation.navigate("Login")}
-                style={styles.actionButton}
-              />
-            </View>
-          ) : (
-            <View>
-              <Input
-                label="Email Address"
-                placeholder="e.g. email@domain.com"
-                value={email}
-                onChangeText={(val) => {
-                  setEmail(val);
-                  setError(null);
-                }}
-                autoCapitalize="none"
-                keyboardType="email-address"
-              />
-
-              {error && (
-                <Typography
-                  variant="captionMuted"
-                  color={colors.priority.critical}
-                  style={styles.errorText}
-                >
-                  {error}
-                </Typography>
-              )}
-
-              <Button
-                variant="primary"
-                title="Send Reset Link"
-                onPress={handleRequest}
-                isLoading={isLoading}
-                style={styles.actionButton}
-              />
-            </View>
-          )}
-        </Card>
-
-        {!success && (
-          <TouchableOpacity
-            style={styles.backLink}
-            onPress={() => navigation.goBack()}
-            activeOpacity={0.7}
-          >
-            <Typography variant="bodyBold" color={colors.text.secondary}>
-              Back to Sign In
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Typography variant="h2" style={styles.title}>
+              Forgot Password
             </Typography>
-          </TouchableOpacity>
-        )}
-      </View>
+            <Typography variant="bodyMuted" align="center">
+              {success
+                ? "Check your inbox for a recovery link."
+                : "Enter your account email to receive a password reset link."}
+            </Typography>
+          </View>
+
+          <Card style={styles.card}>
+            {success ? (
+              <View style={styles.successContainer}>
+                <Typography variant="body" align="center" style={styles.successMessage}>
+                  We've sent reset instructions to {email}.
+                </Typography>
+                <Button
+                  variant="primary"
+                  title="Back to Login"
+                  onPress={() => navigation.navigate("Login")}
+                  style={styles.actionButton}
+                />
+              </View>
+            ) : (
+              <View>
+                <Input
+                  label="Email Address"
+                  placeholder="e.g. email@domain.com"
+                  value={email}
+                  onChangeText={(val) => {
+                    setEmail(val);
+                    setError(null);
+                  }}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+
+                {error && (
+                  <Typography
+                    variant="captionMuted"
+                    color={colors.priority.critical}
+                    style={styles.errorText}
+                  >
+                    {error}
+                  </Typography>
+                )}
+
+                <Button
+                  variant="primary"
+                  title="Send Reset Link"
+                  onPress={handleRequest}
+                  isLoading={isLoading}
+                  style={styles.actionButton}
+                />
+              </View>
+            )}
+          </Card>
+
+          {!success && (
+            <TouchableOpacity
+              style={styles.backLink}
+              onPress={() => navigation.goBack()}
+              activeOpacity={0.7}
+            >
+              <Typography variant="bodyBold" color={colors.text.secondary}>
+                Back to Sign In
+              </Typography>
+            </TouchableOpacity>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -111,6 +117,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   container: {
     flex: 1,

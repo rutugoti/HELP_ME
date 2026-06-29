@@ -3,7 +3,15 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../constants/colors";
 import { spacing } from "../../constants/spacing";
@@ -38,85 +46,90 @@ export const RegisterScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
       >
-        <View style={styles.header}>
-          <Typography variant="h2" style={styles.title}>
-            Create Account
-          </Typography>
-          <Typography variant="bodyMuted" align="center">
-            Set up details for your {role.toUpperCase()} workspace.
-          </Typography>
-        </View>
-
-        <Card style={styles.card}>
-          <Input
-            label="Full Name"
-            placeholder="e.g. John Doe"
-            value={fullName}
-            onChangeText={(val) => {
-              setFullName(val);
-              setError(null);
-            }}
-            autoComplete="name"
-          />
-
-          <Input
-            label="Email Address"
-            placeholder="e.g. email@domain.com"
-            value={email}
-            onChangeText={(val) => {
-              setEmail(val);
-              setError(null);
-            }}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            autoComplete="email"
-          />
-
-          <Input
-            label="Password"
-            placeholder="Choose a strong password"
-            value={password}
-            onChangeText={(val) => {
-              setPassword(val);
-              setError(null);
-            }}
-            secureTextEntry
-            autoCapitalize="none"
-            autoComplete="password-new"
-          />
-
-          {error && (
-            <Typography
-              variant="captionMuted"
-              color={colors.priority.critical}
-              style={styles.errorText}
-            >
-              {error}
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.header}>
+            <Typography variant="h2" style={styles.title}>
+              Create Account
             </Typography>
-          )}
-
-          <Button
-            variant="primary"
-            title="Register Account"
-            onPress={handleRegister}
-            isLoading={isLoading}
-            style={styles.registerButton}
-          />
-        </Card>
-
-        <View style={styles.footer}>
-          <Typography variant="bodyMuted">Already have an account? </Typography>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")} activeOpacity={0.7}>
-            <Typography variant="bodyBold" color={colors.accent.primary}>
-              Sign In
+            <Typography variant="bodyMuted" align="center">
+              Set up details for your {role.toUpperCase()} workspace.
             </Typography>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </View>
+
+          <Card style={styles.card}>
+            <Input
+              label="Full Name"
+              placeholder="e.g. John Doe"
+              value={fullName}
+              onChangeText={(val) => {
+                setFullName(val);
+                setError(null);
+              }}
+              autoComplete="name"
+            />
+
+            <Input
+              label="Email Address"
+              placeholder="e.g. email@domain.com"
+              value={email}
+              onChangeText={(val) => {
+                setEmail(val);
+                setError(null);
+              }}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              autoComplete="email"
+            />
+
+            <Input
+              label="Password"
+              placeholder="Choose a strong password"
+              value={password}
+              onChangeText={(val) => {
+                setPassword(val);
+                setError(null);
+              }}
+              secureTextEntry
+              autoCapitalize="none"
+              autoComplete="password-new"
+            />
+
+            {error && (
+              <Typography
+                variant="captionMuted"
+                color={colors.priority.critical}
+                style={styles.errorText}
+              >
+                {error}
+              </Typography>
+            )}
+
+            <Button
+              variant="primary"
+              title="Register Account"
+              onPress={handleRegister}
+              isLoading={isLoading}
+              style={styles.registerButton}
+            />
+          </Card>
+
+          <View style={styles.footer}>
+            <Typography variant="bodyMuted">Already have an account? </Typography>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")} activeOpacity={0.7}>
+              <Typography variant="bodyBold" color={colors.accent.primary}>
+                Sign In
+              </Typography>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -125,6 +138,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   scrollContainer: {
     flexGrow: 1,

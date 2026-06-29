@@ -3,14 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../constants/colors";
 import { spacing, radii } from "../../constants/spacing";

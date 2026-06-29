@@ -3,6 +3,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { Platform } from "react-native";
+import { moderateScale } from "../utils/responsive";
 
 export const typography = {
   fontFamily: {
@@ -19,14 +20,14 @@ export const typography = {
   },
 
   fontSize: {
-    xs: 11,
-    sm: 13,
-    base: 15,
-    md: 17,
-    lg: 20,
-    xl: 24,
-    xxl: 30,
-    xxxl: 38,
+    xs: moderateScale(11),
+    sm: moderateScale(13),
+    base: moderateScale(15),
+    md: moderateScale(17),
+    lg: moderateScale(20),
+    xl: moderateScale(24),
+    xxl: moderateScale(30),
+    xxxl: moderateScale(38),
   },
 
   fontWeight: {

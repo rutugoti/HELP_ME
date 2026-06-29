@@ -5,9 +5,9 @@
 import React from "react";
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
 import { colors } from "../constants/colors";
 import { spacing } from "../constants/spacing";
-import { Typography } from "../components/common";
 import { AppTabParamList } from "./types";
 
 // Navigators
@@ -44,10 +44,8 @@ export const AppNavigator: React.FC = () => {
           component={DashboardNavigator}
           options={{
             tabBarLabel: "Dashboard",
-            tabBarIcon: ({ color }) => (
-              <Typography variant="bodyBold" style={{ color }}>
-                📊
-              </Typography>
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="stats-chart" size={size || 24} color={color} />
             ),
           }}
         />
@@ -56,10 +54,8 @@ export const AppNavigator: React.FC = () => {
           component={TasksNavigator}
           options={{
             tabBarLabel: "Tasks",
-            tabBarIcon: ({ color }) => (
-              <Typography variant="bodyBold" style={{ color }}>
-                ⚡
-              </Typography>
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="flash" size={size || 24} color={color} />
             ),
           }}
         />
@@ -68,10 +64,8 @@ export const AppNavigator: React.FC = () => {
           component={CalendarNavigator}
           options={{
             tabBarLabel: "Calendar",
-            tabBarIcon: ({ color }) => (
-              <Typography variant="bodyBold" style={{ color }}>
-                📅
-              </Typography>
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="calendar" size={size || 24} color={color} />
             ),
           }}
         />
@@ -80,10 +74,8 @@ export const AppNavigator: React.FC = () => {
           component={GoalsNavigator}
           options={{
             tabBarLabel: "Goals",
-            tabBarIcon: ({ color }) => (
-              <Typography variant="bodyBold" style={{ color }}>
-                🎯
-              </Typography>
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="trophy" size={size || 24} color={color} />
             ),
           }}
         />
@@ -92,10 +84,8 @@ export const AppNavigator: React.FC = () => {
           component={SettingsNavigator}
           options={{
             tabBarLabel: "Settings",
-            tabBarIcon: ({ color }) => (
-              <Typography variant="bodyBold" style={{ color }}>
-                ⚙️
-              </Typography>
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="settings" size={size || 24} color={color} />
             ),
           }}
         />

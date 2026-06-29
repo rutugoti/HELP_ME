@@ -3,7 +3,15 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, ScrollView, ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { TasksStackParamList } from "../../navigation/types";
@@ -111,115 +119,120 @@ export const TaskEditScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        <Typography variant="h2" style={styles.header}>
-          Edit Task
-        </Typography>
-
-        {errorText && (
-          <Card style={styles.errorCard}>
-            <Typography variant="caption" color={colors.priority.critical}>
-              ⚠️ {errorText}
-            </Typography>
-          </Card>
-        )}
-
-        <View style={styles.form}>
-          <Input
-            label="Task Title"
-            placeholder="What needs to be done?"
-            value={title}
-            onChangeText={setTitle}
-          />
-
-          <Input
-            label="Description"
-            placeholder="Optional details, links, scripts..."
-            value={description}
-            onChangeText={setDescription}
-            multiline
-            numberOfLines={3}
-            style={styles.textArea}
-          />
-
-          <Input
-            label="Deadline (ISO format)"
-            placeholder="YYYY-MM-DDTHH:MM:SSZ"
-            value={deadlineStr}
-            onChangeText={setDeadlineStr}
-          />
-
-          <Input
-            label="Estimated Effort (Minutes)"
-            placeholder="e.g. 30"
-            value={estimatedMinutes}
-            onChangeText={setEstimatedMinutes}
-            keyboardType="number-pad"
-          />
-
-          <Input
-            label="Category"
-            placeholder="e.g. Work, Admin, Health"
-            value={category}
-            onChangeText={setCategory}
-          />
-
-          <Typography variant="caption" style={styles.label}>
-            Status
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
+      >
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+          <Typography variant="h2" style={styles.header}>
+            Edit Task
           </Typography>
-          <View style={styles.severityRow}>
-            {STATUSES.map((st) => {
-              const isSelected = status === st.value;
-              return (
-                <Button
-                  key={st.value}
-                  variant={isSelected ? "primary" : "outline"}
-                  title={st.label}
-                  onPress={() => setStatus(st.value)}
-                  style={styles.sevBtn}
-                />
-              );
-            })}
-          </View>
 
-          <Typography variant="caption" style={styles.label}>
-            Consequence Severity
-          </Typography>
-          <View style={styles.severityRow}>
-            {SEVERITIES.map((sev) => {
-              const isSelected = severity === sev.value;
-              return (
-                <Button
-                  key={sev.value}
-                  variant={isSelected ? "primary" : "outline"}
-                  title={sev.label.split(" ")[0]}
-                  onPress={() => setSeverity(sev.value)}
-                  style={styles.sevBtn}
-                />
-              );
-            })}
-          </View>
+          {errorText && (
+            <Card style={styles.errorCard}>
+              <Typography variant="caption" color={colors.priority.critical}>
+                ⚠️ {errorText}
+              </Typography>
+            </Card>
+          )}
 
-          <View style={styles.actions}>
-            <Button
-              variant="outline"
-              title="Cancel"
-              onPress={() => navigation.goBack()}
-              style={styles.actionBtn}
+          <View style={styles.form}>
+            <Input
+              label="Task Title"
+              placeholder="What needs to be done?"
+              value={title}
+              onChangeText={setTitle}
             />
-            {updateMutation.isPending ? (
-              <ActivityIndicator size="small" color={colors.accent.primary} />
-            ) : (
+
+            <Input
+              label="Description"
+              placeholder="Optional details, links, scripts..."
+              value={description}
+              onChangeText={setDescription}
+              multiline
+              numberOfLines={3}
+              style={styles.textArea}
+            />
+
+            <Input
+              label="Deadline (ISO format)"
+              placeholder="YYYY-MM-DDTHH:MM:SSZ"
+              value={deadlineStr}
+              onChangeText={setDeadlineStr}
+            />
+
+            <Input
+              label="Estimated Effort (Minutes)"
+              placeholder="e.g. 30"
+              value={estimatedMinutes}
+              onChangeText={setEstimatedMinutes}
+              keyboardType="number-pad"
+            />
+
+            <Input
+              label="Category"
+              placeholder="e.g. Work, Admin, Health"
+              value={category}
+              onChangeText={setCategory}
+            />
+
+            <Typography variant="caption" style={styles.label}>
+              Status
+            </Typography>
+            <View style={styles.severityRow}>
+              {STATUSES.map((st) => {
+                const isSelected = status === st.value;
+                return (
+                  <Button
+                    key={st.value}
+                    variant={isSelected ? "primary" : "outline"}
+                    title={st.label}
+                    onPress={() => setStatus(st.value)}
+                    style={styles.sevBtn}
+                  />
+                );
+              })}
+            </View>
+
+            <Typography variant="caption" style={styles.label}>
+              Consequence Severity
+            </Typography>
+            <View style={styles.severityRow}>
+              {SEVERITIES.map((sev) => {
+                const isSelected = severity === sev.value;
+                return (
+                  <Button
+                    key={sev.value}
+                    variant={isSelected ? "primary" : "outline"}
+                    title={sev.label.split(" ")[0]}
+                    onPress={() => setSeverity(sev.value)}
+                    style={styles.sevBtn}
+                  />
+                );
+              })}
+            </View>
+
+            <View style={styles.actions}>
               <Button
-                variant="primary"
-                title="Save"
-                onPress={handleUpdate}
+                variant="outline"
+                title="Cancel"
+                onPress={() => navigation.goBack()}
                 style={styles.actionBtn}
               />
-            )}
+              {updateMutation.isPending ? (
+                <ActivityIndicator size="small" color={colors.accent.primary} />
+              ) : (
+                <Button
+                  variant="primary"
+                  title="Save"
+                  onPress={handleUpdate}
+                  style={styles.actionBtn}
+                />
+              )}
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -228,6 +241,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   centered: {
     flex: 1,

@@ -3,7 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../constants/colors";
 import { spacing } from "../../constants/spacing";

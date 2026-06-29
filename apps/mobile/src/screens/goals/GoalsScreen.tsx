@@ -3,14 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GoalsStackParamList } from "../../navigation/types";
 import { colors } from "../../constants/colors";

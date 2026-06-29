@@ -2,10 +2,9 @@
 // LastMinute — API Client Instance for Mobile
 // ─────────────────────────────────────────────────────────────
 
-import { createApiClient } from "@lastminute/api-client";
+import { createApiClient, authApi } from "@lastminute/api-client";
 import { useAuthStore } from "../store/authStore";
 import { config } from "../constants/config";
-import * as authApi from "@lastminute/api-client/src/auth"; // Import individual auth methods
 
 export const api = createApiClient({
   baseUrl: config.apiBaseUrl,

@@ -3,14 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { DashboardStackParamList } from "../../navigation/types";
 import { colors } from "../../constants/colors";

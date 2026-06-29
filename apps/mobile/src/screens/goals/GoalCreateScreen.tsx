@@ -3,13 +3,15 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   StyleSheet,
   View,
-  SafeAreaView,
   ScrollView,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { GoalsStackParamList } from "../../navigation/types";
@@ -95,97 +97,103 @@ export const GoalCreateScreen: React.FC<Props> = ({ navigation }) => {
         </Typography>
       </View>
 
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        {errorText && (
-          <Card style={styles.errorCard}>
-            <Typography variant="caption" color={colors.priority.critical}>
-              ⚠️ {errorText}
-            </Typography>
-          </Card>
-        )}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
+      >
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+          {errorText && (
+            <Card style={styles.errorCard}>
+              <Typography variant="caption" color={colors.priority.critical}>
+                ⚠️ {errorText}
+              </Typography>
+            </Card>
+          )}
 
-        <Typography variant="bodyBold" style={styles.label}>
-          Goal Title
-        </Typography>
-        <TextInput
-          placeholder="E.g. Run a half marathon, Learn Next.js"
-          placeholderTextColor={colors.text.secondary}
-          value={title}
-          onChangeText={setTitle}
-          style={styles.textInput}
-        />
+          <Typography variant="bodyBold" style={styles.label}>
+            Goal Title
+          </Typography>
+          <TextInput
+            placeholder="E.g. Run a half marathon, Learn Next.js"
+            placeholderTextColor={colors.text.secondary}
+            value={title}
+            onChangeText={setTitle}
+            style={styles.textInput}
+          />
 
-        <Typography variant="bodyBold" style={styles.label}>
-          Description (Optional)
-        </Typography>
-        <TextInput
-          placeholder="What is your motivation or plan details..."
-          placeholderTextColor={colors.text.secondary}
-          value={description}
-          onChangeText={setDescription}
-          style={[styles.textInput, styles.textArea]}
-          multiline
-        />
+          <Typography variant="bodyBold" style={styles.label}>
+            Description (Optional)
+          </Typography>
+          <TextInput
+            placeholder="What is your motivation or plan details..."
+            placeholderTextColor={colors.text.secondary}
+            value={description}
+            onChangeText={setDescription}
+            style={[styles.textInput, styles.textArea]}
+            multiline
+          />
 
-        <Typography variant="bodyBold" style={styles.label}>
-          Target Date (YYYY-MM-DD)
-        </Typography>
-        <TextInput
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor={colors.text.secondary}
-          value={targetDateStr}
-          onChangeText={setTargetDateStr}
-          style={styles.textInput}
-        />
+          <Typography variant="bodyBold" style={styles.label}>
+            Target Date (YYYY-MM-DD)
+          </Typography>
+          <TextInput
+            placeholder="YYYY-MM-DD"
+            placeholderTextColor={colors.text.secondary}
+            value={targetDateStr}
+            onChangeText={setTargetDateStr}
+            style={styles.textInput}
+          />
 
-        <View style={styles.quickDatesRow}>
-          <TouchableOpacity onPress={() => setQuickTargetDate(30)} style={styles.quickDateTag}>
-            <Typography variant="caption">30 days</Typography>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setQuickTargetDate(90)} style={styles.quickDateTag}>
-            <Typography variant="caption">90 days</Typography>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setQuickTargetDate(180)} style={styles.quickDateTag}>
-            <Typography variant="caption">6 months</Typography>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.quickDatesRow}>
+            <TouchableOpacity onPress={() => setQuickTargetDate(30)} style={styles.quickDateTag}>
+              <Typography variant="caption">30 days</Typography>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setQuickTargetDate(90)} style={styles.quickDateTag}>
+              <Typography variant="caption">90 days</Typography>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setQuickTargetDate(180)} style={styles.quickDateTag}>
+              <Typography variant="caption">6 months</Typography>
+            </TouchableOpacity>
+          </View>
 
-        <Typography variant="bodyBold" style={styles.label}>
-          Generate Daily Habits (Optional)
-        </Typography>
-        <Typography variant="caption" color={colors.text.secondary} style={styles.subLabel}>
-          Select categories. The AI assistant will prompt you to complete daily tasks for check-in.
-        </Typography>
+          <Typography variant="bodyBold" style={styles.label}>
+            Generate Daily Habits (Optional)
+          </Typography>
+          <Typography variant="caption" color={colors.text.secondary} style={styles.subLabel}>
+            Select categories. The AI assistant will prompt you to complete daily tasks for
+            check-in.
+          </Typography>
 
-        <View style={styles.categoriesRow}>
-          {HABIT_CATEGORIES_OPTIONS.map((cat) => {
-            const isSelected = selectedCategories.includes(cat);
-            return (
-              <TouchableOpacity
-                key={cat}
-                activeOpacity={0.7}
-                onPress={() => toggleCategory(cat)}
-                style={[styles.categoryTag, isSelected && styles.categoryTagSelected]}
-              >
-                <Typography
-                  variant="caption"
-                  style={{ color: isSelected ? colors.white : colors.text.primary }}
+          <View style={styles.categoriesRow}>
+            {HABIT_CATEGORIES_OPTIONS.map((cat) => {
+              const isSelected = selectedCategories.includes(cat);
+              return (
+                <TouchableOpacity
+                  key={cat}
+                  activeOpacity={0.7}
+                  onPress={() => toggleCategory(cat)}
+                  style={[styles.categoryTag, isSelected && styles.categoryTagSelected]}
                 >
-                  {cat.toUpperCase()}
-                </Typography>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+                  <Typography
+                    variant="caption"
+                    style={{ color: isSelected ? colors.white : colors.text.primary }}
+                  >
+                    {cat.toUpperCase()}
+                  </Typography>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
 
-        <Button
-          variant="primary"
-          title="Save Goal"
-          onPress={handleSave}
-          isLoading={isCreatingGoal}
-          style={styles.saveBtn}
-        />
-      </ScrollView>
+          <Button
+            variant="primary"
+            title="Save Goal"
+            onPress={handleSave}
+            isLoading={isCreatingGoal}
+            style={styles.saveBtn}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -194,6 +202,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   header: {
     flexDirection: "row",

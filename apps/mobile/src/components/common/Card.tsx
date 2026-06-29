@@ -6,6 +6,7 @@ import React from "react";
 import { StyleSheet, View, ViewStyle, TouchableOpacity, StyleProp } from "react-native";
 import { colors } from "../../constants/colors";
 import { spacing, radii } from "../../constants/spacing";
+import { moderateScale } from "../../utils/responsive";
 
 export interface CardProps {
   onPress?: () => void;
@@ -37,8 +38,8 @@ export const Card: React.FC<CardProps> = ({
 const styles = StyleSheet.create({
   card: {
     borderRadius: radii.lg,
-    padding: spacing.lg,
-    marginVertical: spacing.xs,
+    padding: moderateScale(spacing.lg),
+    marginVertical: moderateScale(spacing.xs),
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,

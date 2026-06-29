@@ -3,14 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-  ActivityIndicator,
-  Linking,
-} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, ScrollView, ActivityIndicator, Linking } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarStackParamList } from "../../navigation/types";

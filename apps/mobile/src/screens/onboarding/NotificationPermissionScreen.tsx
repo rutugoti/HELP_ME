@@ -3,7 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState } from "react";
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as Notifications from "expo-notifications";
 import { colors } from "../../constants/colors";

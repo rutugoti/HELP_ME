@@ -13,6 +13,7 @@ import {
 import { colors } from "../../constants/colors";
 import { spacing, radii } from "../../constants/spacing";
 import { Typography } from "./Typography";
+import { moderateScale } from "../../utils/responsive";
 
 export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
@@ -102,15 +103,18 @@ const styles = StyleSheet.create({
 });
 
 const sizeStyles = StyleSheet.create({
-  sm: { paddingVertical: spacing.xs, paddingHorizontal: spacing.md },
-  md: { paddingVertical: spacing.md, paddingHorizontal: spacing.lg },
-  lg: { paddingVertical: spacing.lg, paddingHorizontal: spacing["2xl"] },
+  sm: { paddingVertical: moderateScale(spacing.xs), paddingHorizontal: moderateScale(spacing.md) },
+  md: { paddingVertical: moderateScale(spacing.md), paddingHorizontal: moderateScale(spacing.lg) },
+  lg: {
+    paddingVertical: moderateScale(spacing.lg),
+    paddingHorizontal: moderateScale(spacing["2xl"]),
+  },
 });
 
 const sizeTextStyles = StyleSheet.create({
-  sm: { fontSize: 13 },
-  md: { fontSize: 15 },
-  lg: { fontSize: 17 },
+  sm: { fontSize: moderateScale(13) },
+  md: { fontSize: moderateScale(15) },
+  lg: { fontSize: moderateScale(17) },
 });
 
 const variantStyles = StyleSheet.create({
