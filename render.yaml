@@ -137,6 +137,8 @@ services:
     envVars:
       - key: PORT
         value: 3004
+      - key: RABBITMQ_URL
+        value: amqp://localhost
       - key: DB_HOST
         fromDatabase:
           name: lastminute-db
