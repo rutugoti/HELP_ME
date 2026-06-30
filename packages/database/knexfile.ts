@@ -4,6 +4,11 @@
 // ─────────────────────────────────────────────────────────────
 
 import type { Knex } from "knex";
+import dotenv from "dotenv";
+import path from "path";
+
+// Load environment variables relative to the knexfile.ts directory
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 const config: Record<string, Knex.Config> = {
   development: {

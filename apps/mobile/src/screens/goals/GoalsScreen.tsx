@@ -26,18 +26,18 @@ export const GoalsScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <Typography variant="h2">Goals & Habits</Typography>
-          <Button
-            variant="primary"
-            size="sm"
-            title="+ New Goal"
-            onPress={() => navigation.navigate("GoalCreate")}
-            style={styles.newGoalBtn}
-          />
-        </View>
+      <View style={styles.header}>
+        <Typography variant="h2">Goals & Habits</Typography>
+        <Button
+          variant="primary"
+          size="sm"
+          title="+ New Goal"
+          onPress={() => navigation.navigate("GoalCreate")}
+          style={styles.newGoalBtn}
+        />
+      </View>
 
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Habits Overview Panel */}
         <Typography variant="bodyBold" style={styles.sectionTitle}>
           Habit Tracking Summary
@@ -143,17 +143,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background.primary,
   },
-  container: {
-    padding: spacing.lg,
-  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  container: {
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.lg,
+    paddingTop: spacing.sm,
   },
   newGoalBtn: {
-    height: 32,
     paddingHorizontal: spacing.md,
   },
   sectionTitle: {
@@ -206,7 +208,6 @@ const styles = StyleSheet.create({
   },
   openTrackerBtn: {
     width: 140,
-    height: 28,
   },
   goalsHeader: {
     flexDirection: "row",

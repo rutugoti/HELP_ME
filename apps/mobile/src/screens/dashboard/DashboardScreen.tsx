@@ -38,16 +38,16 @@ export const DashboardScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-        {/* Welcome Section */}
-        <View style={styles.welcomeRow}>
-          <View style={styles.welcomeSection}>
-            <Typography variant="h2">Dashboard</Typography>
-            <Typography variant="bodyMuted">Defend your time and stay ahead.</Typography>
-          </View>
-          <NotificationBell />
+      {/* Welcome Section */}
+      <View style={styles.header}>
+        <View style={styles.welcomeSection}>
+          <Typography variant="h2">Dashboard</Typography>
+          <Typography variant="bodyMuted">Defend your time and stay ahead.</Typography>
         </View>
+        <NotificationBell />
+      </View>
 
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Daily Brief Callout */}
         <TouchableOpacity
           activeOpacity={0.9}
@@ -171,15 +171,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background.primary,
   },
-  container: {
-    padding: spacing.lg,
-  },
-  welcomeRow: {
+  header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: spacing.sm,
-    marginBottom: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  container: {
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.lg,
+    paddingTop: spacing.sm,
   },
   welcomeSection: {
     flex: 1,

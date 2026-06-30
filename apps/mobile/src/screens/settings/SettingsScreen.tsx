@@ -115,7 +115,9 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border.subtle,
   },
   container: {
-    padding: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.lg,
+    paddingTop: spacing.sm,
   },
   userCard: {
     flexDirection: "row",

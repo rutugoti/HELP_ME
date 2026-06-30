@@ -110,9 +110,7 @@ export const GoalDetailScreen: React.FC<Props> = ({ route, navigation }) => {
           activeOpacity={0.7}
           style={styles.backLink}
         >
-          <Typography variant="bodyBold" color={colors.text.secondary}>
-            ➔ Back
-          </Typography>
+          <Typography style={styles.backText}>←</Typography>
         </TouchableOpacity>
         <Typography variant="h3" numberOfLines={1} style={styles.headerTitle}>
           Goal Details
@@ -221,7 +219,12 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border.subtle,
   },
   backLink: {
-    transform: [{ rotate: "180deg" }],
+    padding: spacing.xs,
+  },
+  backText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: colors.text.secondary,
   },
   headerTitle: {
     flex: 1,

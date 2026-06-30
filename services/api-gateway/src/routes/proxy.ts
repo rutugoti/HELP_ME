@@ -50,26 +50,50 @@ export function registerProxyRoutes(router: Router): void {
     });
 
   // User Service routes
-  router.use("/api/v1/auth", proxyOptions(config.services.userService, "user-service"));
-  router.use("/api/v1/users", proxyOptions(config.services.userService, "user-service"));
+  router.use(
+    "/api/v1/auth",
+    proxyOptions(`${config.services.userService}/api/v1/auth`, "user-service")
+  );
+  router.use(
+    "/api/v1/users",
+    proxyOptions(`${config.services.userService}/api/v1/users`, "user-service")
+  );
 
   // Task Service routes
-  router.use("/api/v1/tasks", proxyOptions(config.services.taskService, "task-service"));
-  router.use("/api/v1/goals", proxyOptions(config.services.taskService, "task-service"));
-  router.use("/api/v1/habits", proxyOptions(config.services.taskService, "task-service"));
+  router.use(
+    "/api/v1/tasks",
+    proxyOptions(`${config.services.taskService}/api/v1/tasks`, "task-service")
+  );
+  router.use(
+    "/api/v1/goals",
+    proxyOptions(`${config.services.taskService}/api/v1/goals`, "task-service")
+  );
+  router.use(
+    "/api/v1/habits",
+    proxyOptions(`${config.services.taskService}/api/v1/habits`, "task-service")
+  );
 
   // Calendar Service routes
-  router.use("/api/v1/calendar", proxyOptions(config.services.calendarService, "calendar-service"));
+  router.use(
+    "/api/v1/calendar",
+    proxyOptions(`${config.services.calendarService}/api/v1/calendar`, "calendar-service")
+  );
 
   // AI Service routes
-  router.use("/api/v1/ai", proxyOptions(config.services.aiService, "ai-service"));
+  router.use("/api/v1/ai", proxyOptions(`${config.services.aiService}/api/v1/ai`, "ai-service"));
 
   // Notification Service routes
   router.use(
     "/api/v1/notifications",
-    proxyOptions(config.services.notificationService, "notification-service")
+    proxyOptions(
+      `${config.services.notificationService}/api/v1/notifications`,
+      "notification-service"
+    )
   );
 
   // Webhook routes (bypasses JWT auth, handled at service level)
-  router.use("/api/v1/webhooks", proxyOptions(config.services.calendarService, "calendar-service"));
+  router.use(
+    "/api/v1/webhooks",
+    proxyOptions(`${config.services.calendarService}/api/v1/webhooks`, "calendar-service")
+  );
 }

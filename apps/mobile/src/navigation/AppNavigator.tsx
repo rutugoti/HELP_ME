@@ -19,9 +19,14 @@ import { SettingsNavigator } from "./SettingsNavigator";
 
 import { NotificationOverlay } from "../components/notifications";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const Tab = createBottomTabNavigator<AppTabParamList>();
 
 export const AppNavigator: React.FC = () => {
+  const insets = useSafeAreaInsets();
+  const hasBottomInset = insets.bottom > 0;
+
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
@@ -33,8 +38,8 @@ export const AppNavigator: React.FC = () => {
           tabBarStyle: {
             backgroundColor: colors.background.secondary,
             borderTopColor: colors.border.subtle,
-            height: 60,
-            paddingBottom: spacing.sm,
+            height: hasBottomInset ? 52 + insets.bottom : 60,
+            paddingBottom: hasBottomInset ? insets.bottom : spacing.sm,
             paddingTop: spacing.xs,
           },
         }}

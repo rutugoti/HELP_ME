@@ -4,6 +4,7 @@
 // requests, and foreground/background listener setup.
 // ─────────────────────────────────────────────────────────────
 
+import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
@@ -30,6 +31,11 @@ export type NotificationResponseListener = (response: Notifications.Notification
 
 /** Requests push notification permission and returns the Expo push token. */
 export async function registerForPushNotifications(): Promise<string | null> {
+  const isExpoGo = Constants.executionEnvironment === "storeClient";
+  if (isExpoGo) {
+    return null;
+  }
+
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
 

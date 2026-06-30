@@ -9,7 +9,8 @@
     "test": "pnpm -r run test",
     "clean": "tsc --build --clean",
     "typecheck": "tsc --build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "dev": "concurrently --names user,task,calendar,notif,ai,gateway --prefix-colors blue,green,yellow,magenta,cyan,red \"pnpm --filter @lastminute/user-service dev\" \"pnpm --filter @lastminute/task-service dev\" \"pnpm --filter @lastminute/calendar-service dev\" \"pnpm --filter @lastminute/notification-service dev\" \"pnpm --filter @lastminute/ai-service dev\" \"pnpm --filter @lastminute/api-gateway dev\""
   },
   "engines": {
     "node": ">=20.0.0",
@@ -17,14 +18,17 @@
   },
   "packageManager": "pnpm@9.15.4",
   "devDependencies": {
-    "typescript": "^5.5.0",
-    "eslint": "^9.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "prettier": "^3.3.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "concurrently": "^10.0.3",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.0.0",
     "husky": "^9.0.0",
     "lint-staged": "^16.0.0",
-    "@commitlint/cli": "^20.0.0",
-    "@commitlint/config-conventional": "^20.0.0"
+    "prettier": "^3.3.0",
+    "tsx": "^4.22.4",
+    "typescript": "^5.5.0"
   }
 }

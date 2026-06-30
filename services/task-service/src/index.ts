@@ -3,6 +3,7 @@
 // Implements startup checks (Rule 5), middleware stack, and graceful shutdown.
 // ─────────────────────────────────────────────────────────────
 
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";

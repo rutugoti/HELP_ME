@@ -12,74 +12,83 @@ import { Typography, Card, Button } from "../../components/common";
 import { TaskCard, TaskCardSkeleton } from "../../components/tasks";
 import { useTasks } from "../../hooks/useTasks";
 
+import { SafeAreaView } from "react-native-safe-area-context";
+
 type Props = NativeStackScreenProps<TasksStackParamList, "TaskList">;
 
 export const TaskListScreen: React.FC<Props> = ({ navigation }) => {
   const { tasks, isLoading, refetch, startTask, completeTask } = useTasks();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Typography variant="h2">My Tasks</Typography>
         <Button
           variant="primary"
+          size="sm"
           title="+ Task"
           onPress={() => navigation.navigate("TaskCreate")}
           style={styles.createBtn}
         />
       </View>
 
-      {isLoading ? (
-        <View style={styles.flex}>
-          <TaskCardSkeleton />
-          <TaskCardSkeleton />
-        </View>
-      ) : tasks.length > 0 ? (
-        <FlatList
-          data={tasks}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TaskCard
-              task={item}
-              onPress={() => navigation.navigate("TaskDetail", { taskId: item.id })}
-              onStart={() => startTask(item.id)}
-              onComplete={() => completeTask(item.id)}
-            />
-          )}
-          contentContainerStyle={styles.listContent}
-          onRefresh={refetch}
-          refreshing={isLoading}
-        />
-      ) : (
-        <Card style={styles.emptyCard}>
-          <Typography variant="bodyMuted" align="center">
-            No tasks found.
-          </Typography>
-        </Card>
-      )}
-    </View>
+      <View style={styles.container}>
+        {isLoading ? (
+          <View style={styles.flex}>
+            <TaskCardSkeleton />
+            <TaskCardSkeleton />
+          </View>
+        ) : tasks.length > 0 ? (
+          <FlatList
+            data={tasks}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TaskCard
+                task={item}
+                onPress={() => navigation.navigate("TaskDetail", { taskId: item.id })}
+                onStart={() => startTask(item.id)}
+                onComplete={() => completeTask(item.id)}
+              />
+            )}
+            contentContainerStyle={styles.listContent}
+            onRefresh={refetch}
+            refreshing={isLoading}
+          />
+        ) : (
+          <Card style={styles.emptyCard}>
+            <Typography variant="bodyMuted" align="center">
+              No tasks found.
+            </Typography>
+          </Card>
+        )}
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
     backgroundColor: colors.background.primary,
-    paddingHorizontal: spacing.lg,
-  },
-  flex: {
-    flex: 1,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: spacing.md,
-    marginBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: colors.background.primary,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
+  },
+  flex: {
+    flex: 1,
   },
   createBtn: {
     paddingHorizontal: spacing.md,
-    height: 36,
   },
   listContent: {
     paddingBottom: spacing.xl,

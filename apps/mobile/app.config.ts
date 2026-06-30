@@ -36,7 +36,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     apiBaseUrl: process.env.API_BASE_URL || "http://localhost:3000",
     wsUrl: process.env.WS_URL || "ws://localhost:3000",
     eas: {
-      projectId: "dummy-project-id",
+      owner: "ruuuu",
+      projectId: "f9da230d-f81b-47ca-86f7-05872f4b3f79",
     },
   },
 });

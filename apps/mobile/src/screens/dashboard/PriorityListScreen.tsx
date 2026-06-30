@@ -71,9 +71,7 @@ export const PriorityListScreen: React.FC<Props> = ({ navigation }) => {
             activeOpacity={0.7}
             style={styles.backButton}
           >
-            <Typography variant="bodyBold" color={colors.text.secondary}>
-              ➔ Back
-            </Typography>
+            <Typography style={styles.backText}>←</Typography>
           </TouchableOpacity>
           <Typography variant="h2" style={styles.title}>
             Priority Rankings
@@ -85,7 +83,7 @@ export const PriorityListScreen: React.FC<Props> = ({ navigation }) => {
           placeholder="Search tasks..."
           value={search}
           onChangeText={handleSearchChange}
-          style={styles.searchInput}
+          containerStyle={styles.searchInput}
         />
 
         {/* Horizontal Filters */}
@@ -195,7 +193,12 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: spacing.md,
-    transform: [{ rotate: "180deg" }],
+    padding: spacing.xs,
+  },
+  backText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: colors.text.secondary,
   },
   title: {
     flex: 1,

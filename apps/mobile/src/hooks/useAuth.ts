@@ -30,17 +30,29 @@ export const useAuth = () => {
       const response = await authApi.login(api, input);
       if (response.status === "success") {
         const tokens = response.data;
-        // Fetch current user details after logging in
-        const userResponse = await usersApi.getMe(api);
-        if (userResponse.status === "success") {
-          await setAuth(
-            userResponse.data,
-            tokens.accessToken,
-            tokens.refreshToken,
-            tokens.onboardingRequired
-          );
-        } else {
-          setError("Failed to load user profile details.");
+        // Temporarily set tokens in store so getMe request can read them
+        useAuthStore.setState({
+          accessToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
+        });
+
+        try {
+          // Fetch current user details after logging in
+          const userResponse = await usersApi.getMe(api);
+          if (userResponse.status === "success") {
+            await setAuth(
+              userResponse.data,
+              tokens.accessToken,
+              tokens.refreshToken,
+              tokens.onboardingRequired
+            );
+          } else {
+            useAuthStore.setState({ accessToken: null, refreshToken: null });
+            setError("Failed to load user profile details.");
+          }
+        } catch (fetchErr) {
+          useAuthStore.setState({ accessToken: null, refreshToken: null });
+          throw fetchErr;
         }
       } else {
         setError((response.data as unknown as string) || "Invalid credentials");
@@ -61,17 +73,29 @@ export const useAuth = () => {
       const response = await authApi.register(api, input);
       if (response.status === "success") {
         const tokens = response.data;
-        // Fetch user info for recently created account
-        const userResponse = await usersApi.getMe(api);
-        if (userResponse.status === "success") {
-          await setAuth(
-            userResponse.data,
-            tokens.accessToken,
-            tokens.refreshToken,
-            tokens.onboardingRequired
-          );
-        } else {
-          setError("Account created, but failed to fetch user details.");
+        // Temporarily set tokens in store so getMe request can read them
+        useAuthStore.setState({
+          accessToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
+        });
+
+        try {
+          // Fetch user info for recently created account
+          const userResponse = await usersApi.getMe(api);
+          if (userResponse.status === "success") {
+            await setAuth(
+              userResponse.data,
+              tokens.accessToken,
+              tokens.refreshToken,
+              tokens.onboardingRequired
+            );
+          } else {
+            useAuthStore.setState({ accessToken: null, refreshToken: null });
+            setError("Account created, but failed to fetch user details.");
+          }
+        } catch (fetchErr) {
+          useAuthStore.setState({ accessToken: null, refreshToken: null });
+          throw fetchErr;
         }
       } else {
         setError((response.data as unknown as string) || "Registration failed");
