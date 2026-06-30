@@ -58,8 +58,7 @@ services:
         value: 3001
       - key: JWT_REFRESH_SECRET
         generateValue: true
-    envVarGroups:
-      - name: lastminute-shared-env
+      - fromGroup: lastminute-shared-env
 
   # 3. Task Service (Private Microservice)
   - type: pserv
@@ -71,8 +70,7 @@ services:
     envVars:
       - key: PORT
         value: 3002
-    envVarGroups:
-      - name: lastminute-shared-env
+      - fromGroup: lastminute-shared-env
 
   # 4. Calendar Service (Private Microservice)
   - type: pserv
@@ -84,8 +82,7 @@ services:
     envVars:
       - key: PORT
         value: 3003
-    envVarGroups:
-      - name: lastminute-shared-env
+      - fromGroup: lastminute-shared-env
 
   # 5. AI Service (Private Microservice)
   - type: pserv
@@ -99,8 +96,7 @@ services:
         value: 3004
       - key: RABBITMQ_URL
         value: "" # Provide your CloudAMQP/RabbitMQ connection URL if messaging queue is configured
-    envVarGroups:
-      - name: lastminute-shared-env
+      - fromGroup: lastminute-shared-env
 
   # 6. Notification Service (Private Microservice)
   - type: pserv
@@ -112,8 +108,7 @@ services:
     envVars:
       - key: PORT
         value: 3005
-    envVarGroups:
-      - name: lastminute-shared-env
+      - fromGroup: lastminute-shared-env
 
   # 7. API Gateway (Public Web Service)
   - type: web
@@ -141,5 +136,4 @@ services:
           name: lastminute-redis
           type: keyvalue
           property: connectionString
-    envVarGroups:
-      - name: lastminute-shared-env
+      - fromGroup: lastminute-shared-env
