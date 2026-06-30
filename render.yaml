@@ -137,8 +137,6 @@ services:
     envVars:
       - key: PORT
         value: 3004
-      - key: RABBITMQ_URL
-        value: "" # Provide your CloudAMQP/RabbitMQ connection URL if messaging queue is configured
       - key: DB_HOST
         fromDatabase:
           name: lastminute-db
