@@ -32,7 +32,7 @@ services:
     healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     # Free tier does not support pre-deploy commands, so run database migrations as part of startCommand
-    startCommand: pnpm --filter @lastminute/database migrate:latest && pnpm --filter @lastminute/user-service start
+    startCommand: pnpm --filter @lastminute/database migrate:latest && node services/user-service/dist/index.js
     envVars:
       - key: PORT
         value: 3001
@@ -67,7 +67,7 @@ services:
     plan: free
     healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
-    startCommand: pnpm --filter @lastminute/task-service start
+    startCommand: node services/task-service/dist/index.js
     envVars:
       - key: PORT
         value: 3002
@@ -100,7 +100,7 @@ services:
     plan: free
     healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
-    startCommand: pnpm --filter @lastminute/calendar-service start
+    startCommand: node services/calendar-service/dist/index.js
     envVars:
       - key: PORT
         value: 3003
@@ -133,7 +133,7 @@ services:
     plan: free
     healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
-    startCommand: pnpm --filter @lastminute/ai-service start
+    startCommand: node services/ai-service/dist/index.js
     envVars:
       - key: PORT
         value: 3004
@@ -168,7 +168,7 @@ services:
     plan: free
     healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
-    startCommand: pnpm --filter @lastminute/notification-service start
+    startCommand: node services/notification-service/dist/index.js
     envVars:
       - key: PORT
         value: 3005
@@ -201,7 +201,7 @@ services:
     plan: free
     healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
-    startCommand: pnpm --filter @lastminute/api-gateway start
+    startCommand: node services/api-gateway/dist/index.js
     envVars:
       - key: PORT
         value: 3000
