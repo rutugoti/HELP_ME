@@ -1,0 +1,145 @@
+# ─────────────────────────────────────────────────────────────
+# LastMinute — Render Blueprint Specification
+# Deploys the PostgreSQL database, Redis Key-Value store, and
+# all 6 microservices as private services with a single public API Gateway.
+# ─────────────────────────────────────────────────────────────
+
+databases:
+  - name: lastminute-db
+    databaseName: lastminute
+    user: postgres
+    plan: free
+
+envVarGroups:
+  - name: lastminute-shared-env
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase:
+          name: lastminute-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: lastminute-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: lastminute-db
+          property: databaseName
+      - key: DB_USER
+        fromDatabase:
+          name: lastminute-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: lastminute-db
+          property: password
+
+services:
+  # 1. Redis Cache & Rate Limiter
+  - type: keyvalue
+    name: lastminute-redis
+    plan: free
+    ipAllowList: [] # Strict security: restrict external traffic, only allow internal services
+
+  # 2. User Service (Private Microservice)
+  - type: private
+    name: lastminute-user-service
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    preDeployCommand: pnpm --filter @lastminute/database migrate:latest
+    startCommand: pnpm --filter @lastminute/user-service start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+    envVarGroups:
+      - name: lastminute-shared-env
+
+  # 3. Task Service (Private Microservice)
+  - type: private
+    name: lastminute-task-service
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm --filter @lastminute/task-service start
+    envVars:
+      - key: PORT
+        value: 3002
+    envVarGroups:
+      - name: lastminute-shared-env
+
+  # 4. Calendar Service (Private Microservice)
+  - type: private
+    name: lastminute-calendar-service
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm --filter @lastminute/calendar-service start
+    envVars:
+      - key: PORT
+        value: 3003
+    envVarGroups:
+      - name: lastminute-shared-env
+
+  # 5. AI Service (Private Microservice)
+  - type: private
+    name: lastminute-ai-service
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm --filter @lastminute/ai-service start
+    envVars:
+      - key: PORT
+        value: 3004
+      - key: RABBITMQ_URL
+        value: "" # Provide your CloudAMQP/RabbitMQ connection URL if messaging queue is configured
+    envVarGroups:
+      - name: lastminute-shared-env
+
+  # 6. Notification Service (Private Microservice)
+  - type: private
+    name: lastminute-notification-service
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm --filter @lastminute/notification-service start
+    envVars:
+      - key: PORT
+        value: 3005
+    envVarGroups:
+      - name: lastminute-shared-env
+
+  # 7. API Gateway (Public Web Service)
+  - type: web
+    name: lastminute-api-gateway
+    env: node
+    plan: free
+    healthCheckPath: /health
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: pnpm --filter @lastminute/api-gateway start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: USER_SERVICE_URL
+        value: http://lastminute-user-service:3001
+      - key: TASK_SERVICE_URL
+        value: http://lastminute-task-service:3002
+      - key: CALENDAR_SERVICE_URL
+        value: http://lastminute-calendar-service:3003
+      - key: AI_SERVICE_URL
+        value: http://lastminute-ai-service:3004
+      - key: NOTIFICATION_SERVICE_URL
+        value: http://lastminute-notification-service:3005
+      - key: REDIS_URL
+        fromService:
+          name: lastminute-redis
+          type: keyvalue
+          property: connectionString
+    envVarGroups:
+      - name: lastminute-shared-env
