@@ -48,7 +48,7 @@ services:
       - key: DB_NAME
         fromDatabase:
           name: lastminute-db
-          property: databaseName
+          property: database
       - key: DB_USER
         fromDatabase:
           name: lastminute-db
@@ -80,7 +80,7 @@ services:
       - key: DB_NAME
         fromDatabase:
           name: lastminute-db
-          property: databaseName
+          property: database
       - key: DB_USER
         fromDatabase:
           name: lastminute-db
@@ -112,7 +112,7 @@ services:
       - key: DB_NAME
         fromDatabase:
           name: lastminute-db
-          property: databaseName
+          property: database
       - key: DB_USER
         fromDatabase:
           name: lastminute-db
@@ -146,7 +146,7 @@ services:
       - key: DB_NAME
         fromDatabase:
           name: lastminute-db
-          property: databaseName
+          property: database
       - key: DB_USER
         fromDatabase:
           name: lastminute-db
@@ -178,7 +178,7 @@ services:
       - key: DB_NAME
         fromDatabase:
           name: lastminute-db
-          property: databaseName
+          property: database
       - key: DB_USER
         fromDatabase:
           name: lastminute-db
