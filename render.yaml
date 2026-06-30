@@ -46,7 +46,7 @@ services:
     ipAllowList: [] # Strict security: restrict external traffic, only allow internal services
 
   # 2. User Service (Private Microservice)
-  - type: private
+  - type: pserv
     name: lastminute-user-service
     env: node
     plan: free
@@ -62,7 +62,7 @@ services:
       - name: lastminute-shared-env
 
   # 3. Task Service (Private Microservice)
-  - type: private
+  - type: pserv
     name: lastminute-task-service
     env: node
     plan: free
@@ -75,7 +75,7 @@ services:
       - name: lastminute-shared-env
 
   # 4. Calendar Service (Private Microservice)
-  - type: private
+  - type: pserv
     name: lastminute-calendar-service
     env: node
     plan: free
@@ -88,7 +88,7 @@ services:
       - name: lastminute-shared-env
 
   # 5. AI Service (Private Microservice)
-  - type: private
+  - type: pserv
     name: lastminute-ai-service
     env: node
     plan: free
@@ -103,7 +103,7 @@ services:
       - name: lastminute-shared-env
 
   # 6. Notification Service (Private Microservice)
-  - type: private
+  - type: pserv
     name: lastminute-notification-service
     env: node
     plan: free
