@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────────────────────
 # LastMinute — Render Blueprint Specification
 # Deploys the PostgreSQL database, Redis Key-Value store, and
-# all 6 microservices with proper environment variable sharing.
+# all 6 microservices as web services (since private services are paid-only).
 # ─────────────────────────────────────────────────────────────
 
 databases:
@@ -24,11 +24,12 @@ services:
     plan: free
     ipAllowList: [] # Strict security: restrict external traffic, only allow internal services
 
-  # 2. User Service (Private Microservice)
-  - type: pserv
+  # 2. User Service (Web Microservice)
+  - type: web
     name: lastminute-user-service
     env: node
     plan: free
+    healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile && pnpm run build
     # Free tier does not support pre-deploy commands, so run database migrations as part of startCommand
     startCommand: pnpm --filter @lastminute/database migrate:latest && pnpm --filter @lastminute/user-service start
@@ -59,11 +60,12 @@ services:
           property: password
       - fromGroup: lastminute-shared-env
 
-  # 3. Task Service (Private Microservice)
-  - type: pserv
+  # 3. Task Service (Web Microservice)
+  - type: web
     name: lastminute-task-service
     env: node
     plan: free
+    healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile && pnpm run build
     startCommand: pnpm --filter @lastminute/task-service start
     envVars:
@@ -91,11 +93,12 @@ services:
           property: password
       - fromGroup: lastminute-shared-env
 
-  # 4. Calendar Service (Private Microservice)
-  - type: pserv
+  # 4. Calendar Service (Web Microservice)
+  - type: web
     name: lastminute-calendar-service
     env: node
     plan: free
+    healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile && pnpm run build
     startCommand: pnpm --filter @lastminute/calendar-service start
     envVars:
@@ -123,11 +126,12 @@ services:
           property: password
       - fromGroup: lastminute-shared-env
 
-  # 5. AI Service (Private Microservice)
-  - type: pserv
+  # 5. AI Service (Web Microservice)
+  - type: web
     name: lastminute-ai-service
     env: node
     plan: free
+    healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile && pnpm run build
     startCommand: pnpm --filter @lastminute/ai-service start
     envVars:
@@ -157,11 +161,12 @@ services:
           property: password
       - fromGroup: lastminute-shared-env
 
-  # 6. Notification Service (Private Microservice)
-  - type: pserv
+  # 6. Notification Service (Web Microservice)
+  - type: web
     name: lastminute-notification-service
     env: node
     plan: free
+    healthCheckPath: /health
     buildCommand: pnpm install --frozen-lockfile && pnpm run build
     startCommand: pnpm --filter @lastminute/notification-service start
     envVars:
