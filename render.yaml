@@ -30,7 +30,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /health
-    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     # Free tier does not support pre-deploy commands, so run database migrations as part of startCommand
     startCommand: pnpm --filter @lastminute/database migrate:latest && pnpm --filter @lastminute/user-service start
     envVars:
@@ -66,7 +66,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /health
-    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     startCommand: pnpm --filter @lastminute/task-service start
     envVars:
       - key: PORT
@@ -99,7 +99,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /health
-    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     startCommand: pnpm --filter @lastminute/calendar-service start
     envVars:
       - key: PORT
@@ -132,7 +132,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /health
-    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     startCommand: pnpm --filter @lastminute/ai-service start
     envVars:
       - key: PORT
@@ -167,7 +167,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /health
-    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     startCommand: pnpm --filter @lastminute/notification-service start
     envVars:
       - key: PORT
@@ -200,7 +200,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /health
-    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    buildCommand: pnpm install --frozen-lockfile --production=false && pnpm run build
     startCommand: pnpm --filter @lastminute/api-gateway start
     envVars:
       - key: PORT
